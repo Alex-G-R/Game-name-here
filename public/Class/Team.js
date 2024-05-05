@@ -17,6 +17,11 @@ class Team {
         this.characters.push(char)
     }
 
+    getCharacters()
+    {
+        return this.characters;
+    }
+
     logCharacters()
     {
         for(const char of this.characters)

@@ -1,0 +1,33 @@
+{
+    "weapons": [
+      {
+        "name": "Sword of Flames",
+        "damage": { "x": 20, "y": 40 },
+        "weight": 5,
+        "damageStats": {
+          "CutDamage": 0.7,
+          "PierceDamage": 0.1,
+          "IncisiveDamage": 0.2,
+          "FireDamage": 0.9,
+          "FrostDamage": 0,
+          "ElectricDamage": 0,
+          "ToxicDamage": 0
+        }
+      },
+      {
+        "name": "Thunderbolt Axe",
+        "damage": { "x": 30, "y": 50 },
+        "weight": 8,
+        "damageStats": {
+          "CutDamage": 0.8,
+          "PierceDamage": 0.2,
+          "IncisiveDamage": 0,
+          "FireDamage": 0,
+          "FrostDamage": 0,
+          "ElectricDamage": 0.9,
+          "ToxicDamage": 0
+        }
+      }
+    ]
+  }
+  

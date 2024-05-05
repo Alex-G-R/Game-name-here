@@ -4,7 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    ".": "node main.js"
+    ".": "node main.js",
+    "build": "browserify C:/dev/the-project/public/script.js -o C:/dev/the-project/public/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +19,9 @@
   "homepage": "https://github.com/Alex-G-R/the-project#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "browserify": "^17.0.0",
     "express": "^4.19.2",
     "path": "^0.12.7"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

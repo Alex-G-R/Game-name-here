@@ -23,6 +23,16 @@ class Weapon extends Item {
         this.ElectricDamageFraction = damageStats.ElectricDamage;
         this.ToxicDamageFraction = damageStats.ToxicDamage;
     }
+
+    getWeaponName()
+    {
+        return this.name;
+    }
+
+    getWeaponDamageRange()
+    {
+        return `${this.minDamage} - ${this.maxDamage}`
+    }
 }
 
 class Armor extends Item {
@@ -37,6 +47,11 @@ class Armor extends Item {
         this.FrostDamageProtection = protectionStats.FrostDamage;
         this.ElectricDamageProtection = protectionStats.ElectricDamage;
         this.ToxicDamageProtection = protectionStats.ToxicDamage;
+    }
+
+    getArmorName()
+    {
+        return this.name;
     }
 }
 
