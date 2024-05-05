@@ -1,0 +1,26 @@
+{
+  "name": "the-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    ".": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alex-G-R/the-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alex-G-R/the-project/issues"
+  },
+  "homepage": "https://github.com/Alex-G-R/the-project#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+  }
+}
