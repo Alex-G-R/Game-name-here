@@ -451,19 +451,9 @@ class WeaponList {
 
 module.exports = WeaponList;
 },{}],10:[function(require,module,exports){
-
-const TileMap = require("./Class/TileMap")
-const Character = require("./Class/Character")
-const Vector2D = require('./Class/Vector2D');
-const DamageVector7 = require('./Class/DamageVector7');
-const Team = require('./Class/Team');
-const { Weapon, Armor } = require('./Class/Item');
-const WeaponList = require("./Class/WeaponList");
-const ArmorList = require("./Class/ArmorList");
-
-// Game setup
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+const WeaponList = require("../Class/WeaponList");
+const ArmorList = require("../Class/ArmorList");
+const Team = require('../Class/Team');
 
 // Define map data, 1 is water, 0 is grass
 const mapData = [
@@ -497,42 +487,74 @@ const tileSize = 40;
 const widthTiles = 32;
 const heightTiles = 24;
 
-canvas.width = widthTiles * tileSize;
-canvas.height = heightTiles * tileSize;
-
-const tileMap = new TileMap(tileSize, mapData);
-
+const mapWidth = tileSize * widthTiles;
+const mapHeight = tileSize * heightTiles;
 
 // init lists 
 const weaponsList = new WeaponList();
 const armorPiecesList = new ArmorList();
 
+const TeamBlue = new Team("Team Blue");
+
+module.exports = {mapData, mapWidth, mapHeight, tileSize, weaponsList, armorPiecesList, TeamBlue}
+},{"../Class/ArmorList":1,"../Class/Team":6,"../Class/WeaponList":9}],11:[function(require,module,exports){
+
+const TileMap = require("../Class/TileMap")
+const {mapData, mapHeight, mapWidth, tileSize} = require("../Constants/GameData");
+
+// Game setup
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+canvas.width = mapWidth;
+canvas.height = mapHeight;
+
+const tileMap = new TileMap(tileSize, mapData);
+
+module.exports = {canvas, ctx, tileMap}
+
+
+},{"../Class/TileMap":7,"../Constants/GameData":10}],12:[function(require,module,exports){
+
+const { canvas } = require("../MapUtils/map");
+const { tileSize } = require("../Constants/GameData");
+const { weaponsList, armorPiecesList, TeamBlue } = require("../Constants/GameData");
+
+const TileMap = require("../Class/TileMap")
+const Character = require("../Class/Character")
+const Team = require('../Class/Team');
+const { Weapon, Armor } = require('../Class/Item');
+const WeaponList = require("../Class/WeaponList");
+const ArmorList = require("../Class/ArmorList");
 
 let clickIteration = 0;
 // Add event listener for mouse movement
-canvas.addEventListener('click', function (event) {
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
-    // Calculate character block position
-    const blockX = Math.floor(mouseX / tileSize);
-    const blockY = Math.floor(mouseY / tileSize);
-    // Iterate over all characters
-    for (const character of TeamBlue.getCharacters()) {
-        // Check if mouse is over the character's block
-        if (blockX === character.getX() && blockY === character.getY()) {
-            if (clickIteration % 2 === 0) {
-                // Display box with character info
-                displayCharacterInfo(character);
-            }
-            else {
-                clearCharacterInfo();
-            }
-            clickIteration++;
-        }
-    }
-});
 
+function addCharacterEventListener() {
+    canvas.addEventListener('click', function (event) {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+        // Calculate character block position
+        const blockX = Math.floor(mouseX / tileSize);
+        const blockY = Math.floor(mouseY / tileSize);
+        // Iterate over all characters
+        for (const character of TeamBlue.getCharacters()) {
+            // Check if mouse is over the character's block
+            if (blockX === character.getX() && blockY === character.getY()) {
+                if (clickIteration % 2 === 0) {
+                    // Display box with character info
+                    displayCharacterInfo(character);
+                }
+                else {
+                    clearCharacterInfo();
+                }
+                clickIteration++;
+            }
+        }
+    });
+    
+}
 
 // Function to display character info
 function displayCharacterInfo(character) {
@@ -678,6 +700,25 @@ function clearArmorInfo() {
 }
 
 
+module.exports = {createArmorEventListener, createWeaponEventListener, addCharacterEventListener}
+},{"../Class/ArmorList":1,"../Class/Character":2,"../Class/Item":5,"../Class/Team":6,"../Class/TileMap":7,"../Class/WeaponList":9,"../Constants/GameData":10,"../MapUtils/map":11}],13:[function(require,module,exports){
+
+const TileMap = require("./Class/TileMap")
+const Character = require("./Class/Character")
+const Vector2D = require('./Class/Vector2D');
+const DamageVector7 = require('./Class/DamageVector7');
+const Team = require('./Class/Team');
+const { Weapon, Armor } = require('./Class/Item');
+const WeaponList = require("./Class/WeaponList");
+const ArmorList = require("./Class/ArmorList");
+
+const {tileMap, ctx, canvas } = require("./MapUtils/map");
+const { mapData, weaponsList, armorPiecesList, TeamBlue } = require("./Constants/GameData");
+const { createArmorEventListener, createWeaponEventListener, addCharacterEventListener } = require("./UI/displayInfo");
+
+addCharacterEventListener();
+createWeaponEventListener();
+createArmorEventListener();
 
 
 function gameLoop() {
@@ -693,9 +734,7 @@ function updateMapData() {
     }
 }
 
-
-
-const TeamBlue = new Team("Team Blue");
+// test adding
 
 const playerOnePosition = new Vector2D(1, 4);
 const playerTwoPosition = new Vector2D(7, 7);
@@ -753,4 +792,4 @@ gameLoop(); // Start the game loop
 
 
 
-},{"./Class/ArmorList":1,"./Class/Character":2,"./Class/DamageVector7":3,"./Class/Item":5,"./Class/Team":6,"./Class/TileMap":7,"./Class/Vector2D":8,"./Class/WeaponList":9}]},{},[10]);
+},{"./Class/ArmorList":1,"./Class/Character":2,"./Class/DamageVector7":3,"./Class/Item":5,"./Class/Team":6,"./Class/TileMap":7,"./Class/Vector2D":8,"./Class/WeaponList":9,"./Constants/GameData":10,"./MapUtils/map":11,"./UI/displayInfo":12}]},{},[13]);
