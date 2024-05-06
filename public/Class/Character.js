@@ -121,7 +121,7 @@ class Character extends Entity {
         `
 
         for (const item of this.equippedWeapon) {
-            htmlinfo += `|- ${item.getWeaponName()} ${item.getWeaponDamageRange()} <br>`
+            htmlinfo += `<span class="weapon-name clickable" data-weapon-name="${item.getWeaponName()}">|- ${item.getWeaponName()} ${item.getWeaponDamageRange()}</span> <br>`
         }
 
 
@@ -137,7 +137,7 @@ class Character extends Entity {
         `
 
         for (const item of this.equippedArmor) {
-            htmlinfo += `|- ${item.getArmorName()}  <br>`
+            htmlinfo += `<span class="armor-name clickable" data-armor-name="${item.getArmorName()}">|- ${item.getArmorName()}</span> <br>`
         }
 
 
@@ -164,35 +164,3 @@ class Character extends Entity {
 }
 
 module.exports = Character;
-
-
-// Main weapon: ${this.getMainWeapon().getWeaponName()} ${this.getMainWeapon().getWeaponDamageRange()}<br>
-// 2nd weapon: ${this.getSecondaryWeapon().getWeaponName()} ${this.getSecondaryWeapon().getWeaponDamageRange()}<br>
-
-/*
-
-getMainWeapon()
-    {
-        if(this.equippedWeapon[0].minDamage > this.equippedWeapon[1].minDamage)
-        {
-            return this.equippedWeapon[0];
-        }
-        else
-        {
-            return this.equippedWeapon[1];
-        }
-    }
-
-    getSecondaryWeapon()
-    {
-        if(this.equippedWeapon[0].minDamage > this.equippedWeapon[1].minDamage)
-        {
-            return this.equippedWeapon[1];
-        }
-        else
-        {
-            return this.equippedWeapon[0];
-        }
-    }
-
-    */

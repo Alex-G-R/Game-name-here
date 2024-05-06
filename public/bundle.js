@@ -1,6 +1,27 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 
 
+class ArmorList {
+    constructor()
+    {
+        this.armorPieces = []
+    }
+
+    addArmorPiece(armorPiece)
+    {
+        this.armorPieces.push(armorPiece)
+    }
+
+    getArmorPieces()
+    {
+        return this.armorPieces;
+    }
+}
+
+module.exports = ArmorList;
+},{}],2:[function(require,module,exports){
+
+
 const Entity = require('./Entity');
 const { Weapon, Armor } = require('./Item');
 
@@ -122,7 +143,7 @@ class Character extends Entity {
         `
 
         for (const item of this.equippedWeapon) {
-            htmlinfo += `|- ${item.getWeaponName()} ${item.getWeaponDamageRange()} <br>`
+            htmlinfo += `<span class="weapon-name clickable" data-weapon-name="${item.getWeaponName()}">|- ${item.getWeaponName()} ${item.getWeaponDamageRange()}</span> <br>`
         }
 
 
@@ -138,7 +159,7 @@ class Character extends Entity {
         `
 
         for (const item of this.equippedArmor) {
-            htmlinfo += `|- ${item.getArmorName()}  <br>`
+            htmlinfo += `<span class="armor-name clickable" data-armor-name="${item.getArmorName()}">|- ${item.getArmorName()}</span> <br>`
         }
 
 
@@ -166,38 +187,7 @@ class Character extends Entity {
 
 module.exports = Character;
 
-
-// Main weapon: ${this.getMainWeapon().getWeaponName()} ${this.getMainWeapon().getWeaponDamageRange()}<br>
-// 2nd weapon: ${this.getSecondaryWeapon().getWeaponName()} ${this.getSecondaryWeapon().getWeaponDamageRange()}<br>
-
-/*
-
-getMainWeapon()
-    {
-        if(this.equippedWeapon[0].minDamage > this.equippedWeapon[1].minDamage)
-        {
-            return this.equippedWeapon[0];
-        }
-        else
-        {
-            return this.equippedWeapon[1];
-        }
-    }
-
-    getSecondaryWeapon()
-    {
-        if(this.equippedWeapon[0].minDamage > this.equippedWeapon[1].minDamage)
-        {
-            return this.equippedWeapon[1];
-        }
-        else
-        {
-            return this.equippedWeapon[0];
-        }
-    }
-
-    */
-},{"./Entity":3,"./Item":4}],2:[function(require,module,exports){
+},{"./Entity":4,"./Item":5}],3:[function(require,module,exports){
 
 class DamageVector7 {
     constructor(CutDamage, PierceDamage, IncisiveDamage, FireDamage, FrostDamage, ElectricDamage, ToxicDamage) {
@@ -213,7 +203,7 @@ class DamageVector7 {
 
 module.exports = DamageVector7;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 
 class Entity {
     constructor(x, y) {
@@ -228,7 +218,10 @@ class Entity {
 }
 
 module.exports = Entity;
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
+
+const WeaponList = require("./WeaponList");
+const ArmorList = require("./ArmorList");
 
 class Item {
     constructor(name, weight) {
@@ -239,7 +232,7 @@ class Item {
 
 
 class Weapon extends Item {
-    constructor(name, damage, weight, damageStats)
+    constructor(name, damage, weight, damageStats, weaponList)
     {
         super(name, weight)
 
@@ -253,6 +246,12 @@ class Weapon extends Item {
         this.FrostDamageFraction = damageStats.FrostDamage;
         this.ElectricDamageFraction = damageStats.ElectricDamage;
         this.ToxicDamageFraction = damageStats.ToxicDamage;
+
+        this.pushWeapon(weaponList);
+    }
+
+    pushWeapon(weaponList) {
+        weaponList.addWeapon(this);
     }
 
     getWeaponName()
@@ -264,10 +263,38 @@ class Weapon extends Item {
     {
         return `${this.minDamage} - ${this.maxDamage}`
     }
+
+    getWeaponCutDamageFraction() { return this.CutDamageFraction; }
+    getWeaponPierceDamageFraction(){ return this.PierceDamageFraction; }
+    getWeaponIncisiveDamageFraction() { return this.IncisiveDamageFraction; }
+    getWeaponFireDamageFraction() { return this.FireDamageFraction; }
+    getWeaponFrostDamageFraction() { return this.FrostDamageFraction; }
+    getWeaponElectricDamageFraction() { return this.ElectricDamageFraction; }
+    getWeaponToxicDamageFraction() { return this.ToxicDamageFraction; }
+
+    displayWeaponInfo()
+    {
+        const htmlinfo = 
+        `
+            Name: ${this.getWeaponName()} <br>
+            Damage range: ${this.getWeaponDamageRange()} <br>
+             _____________ <br>
+            / Damage fractions: <br>
+            | -> Cut DMG: ${this.getWeaponCutDamageFraction()} <br>
+            | -> Pierce DMG: ${this.getWeaponPierceDamageFraction()} <br>
+            | -> Incisive DMG: ${this.getWeaponIncisiveDamageFraction()} <br>
+            | -> Fire DMG: ${this.getWeaponFireDamageFraction()} <br>
+            | -> Frost DMG: ${this.getWeaponFrostDamageFraction()} <br>
+            | -> Electric DMG: ${this.getWeaponElectricDamageFraction()} <br>
+            | -> Toxic DMG: ${this.getWeaponToxicDamageFraction()} <br>
+        ` 
+
+        return htmlinfo;
+    }
 }
 
 class Armor extends Item {
-    constructor(name, weight, protectionStats)
+    constructor(name, weight, protectionStats, armorPiecesList)
     {
         super(name, weight)
 
@@ -278,16 +305,49 @@ class Armor extends Item {
         this.FrostDamageProtection = protectionStats.FrostDamage;
         this.ElectricDamageProtection = protectionStats.ElectricDamage;
         this.ToxicDamageProtection = protectionStats.ToxicDamage;
+
+        this.pushArmor(armorPiecesList)
+    }
+
+    pushArmor(armorPiecesList) {
+        armorPiecesList.addArmorPiece(this);
     }
 
     getArmorName()
     {
         return this.name;
     }
+
+    getArmorCutDamageProtection() { return this.CutDamageProtection; }
+    getArmorPierceDamageProtection(){ return this.PierceDamageProtection; }
+    getArmorIncisiveDamageProtection() { return this.IncisiveDamageProtection; }
+    getArmorFireDamageProtection() { return this.FireDamageProtection; }
+    getArmorFrostDamageProtection() { return this.FrostDamageProtection; }
+    getArmorElectricDamageProtection() { return this.ElectricDamageProtection; }
+    getArmorToxicDamageProtection() { return this.ToxicDamageProtection; }
+
+    displayArmorInfo()
+    {
+        const htmlinfo = 
+        `
+            Name: ${this.getArmorName()} <br>
+             _____________ <br>
+            / Damage Protection: <br>
+            | -> Cut DMG Prot. : ${this.getArmorCutDamageProtection()}% <br>
+            | -> Pierce DMG Prot. : ${this.getArmorPierceDamageProtection()}% <br>
+            | -> Incisive DMG Prot. : ${this.getArmorIncisiveDamageProtection()}% <br>
+            | -> Fire DMG Prot. : ${this.getArmorFireDamageProtection()}% <br>
+            | -> Frost DMG Prot. : ${this.getArmorFrostDamageProtection()}% <br>
+            | -> Electric DMG Prot. : ${this.getArmorElectricDamageProtection()}% <br>
+            | -> Toxic DMG Prot. : ${this.getArmorToxicDamageProtection()}% <br>
+        ` 
+
+        return htmlinfo;
+    }
 }
 
 module.exports = { Weapon, Armor };
-},{}],5:[function(require,module,exports){
+},{"./ArmorList":1,"./WeaponList":9}],6:[function(require,module,exports){
 
 
 class Team {
@@ -322,7 +382,7 @@ class Team {
 }
 
 module.exports = Team;
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 class TileMap {
     constructor(tileSize, mapData) {
         this.tileSize = tileSize;
@@ -358,7 +418,7 @@ class TileMap {
 
 module.exports = TileMap;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 
 class Vector2D {
     constructor(x, y) {
@@ -369,7 +429,28 @@ class Vector2D {
 
 module.exports = Vector2D;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
+
+
+class WeaponList {
+    constructor()
+    {
+        this.weapons = []
+    }
+
+    addWeapon(weapon)
+    {
+        this.weapons.push(weapon)
+    }
+
+    getWeapons()
+    {
+        return this.weapons;
+    }
+}
+
+module.exports = WeaponList;
+},{}],10:[function(require,module,exports){
 
 const TileMap = require("./Class/TileMap")
 const Character = require("./Class/Character")
@@ -377,6 +458,8 @@ const Vector2D = require('./Class/Vector2D');
 const DamageVector7 = require('./Class/DamageVector7');
 const Team = require('./Class/Team');
 const { Weapon, Armor } = require('./Class/Item');
+const WeaponList = require("./Class/WeaponList");
+const ArmorList = require("./Class/ArmorList");
 
 // Game setup
 const canvas = document.getElementById('gameCanvas');
@@ -409,10 +492,21 @@ const mapData = [
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
-
+// 32 x 24
 const tileSize = 40;
+const widthTiles = 32;
+const heightTiles = 24;
+
+canvas.width = widthTiles * tileSize;
+canvas.height = heightTiles * tileSize;
 
 const tileMap = new TileMap(tileSize, mapData);
+
+
+// init lists 
+const weaponsList = new WeaponList();
+const armorPiecesList = new ArmorList();
+
 
 let clickIteration = 0;
 // Add event listener for mouse movement
@@ -447,6 +541,7 @@ function displayCharacterInfo(character) {
 
     // Create a div for info box
     const infoBox = document.createElement('div');
+    infoBox.setAttribute("class", "info-box character-info-box");
     infoBox.style.position = 'absolute';
     infoBox.style.top = `${canvasRect.top}px`;
     infoBox.style.left = `${canvasRect.right + 10}px`;
@@ -459,14 +554,129 @@ function displayCharacterInfo(character) {
 
     // Append info box to document body
     document.body.appendChild(infoBox);
+
+    createWeaponEventListener();
+    createArmorEventListener();
 }
 
 // Function to clear character info
 function clearCharacterInfo() {
     // Remove all info boxes
-    const infoBoxes = document.querySelectorAll('div');
+    const infoBoxes = document.querySelectorAll('.info-box');
     infoBoxes.forEach(box => box.parentNode.removeChild(box));
+    weaponInfoClickCounter = 0;
+    armorInfoClickCounter = 0;
 }
+
+
+let weaponInfoClickCounter = 0;
+function createWeaponEventListener() {
+    const weaponNameClass = document.querySelectorAll(".weapon-name");
+
+    weaponNameClass.forEach(weapon => {
+        weapon.addEventListener("click", () => {
+            const weaponName = weapon.getAttribute('data-weapon-name');
+
+            if(weaponInfoClickCounter % 2 == 0)
+            {
+                showWeaponInfo(weaponName);
+            }
+            else
+            {
+                clearWeaponInfo();
+            }
+        });
+    });
+}
+
+function showWeaponInfo(weaponName) {
+    for (const weapon of weaponsList.getWeapons()) {
+        if (weapon.getWeaponName() == weaponName) {
+            // Get canvas position
+            const canvasRect = canvas.getBoundingClientRect();
+
+            // Create a div for info box
+            const infoBox = document.createElement('div');
+            infoBox.setAttribute("class", "info-box weapon-info-box");
+            infoBox.style.position = 'absolute';
+            infoBox.style.top = `${canvasRect.top}px`;
+            infoBox.style.left = `${canvasRect.right + 200}px`;
+            infoBox.style.backgroundColor = 'white';
+            infoBox.style.border = '1px solid black';
+            infoBox.style.padding = '10px';
+
+            infoBox.innerHTML = `${weapon.displayWeaponInfo()}`;
+
+            // Append info box to document body
+            document.body.appendChild(infoBox);
+            weaponInfoClickCounter++;
+        }
+    }
+}
+
+// Function to clear character info
+function clearWeaponInfo() {
+    // Remove all info boxes
+    const infoBoxes = document.querySelectorAll('.weapon-info-box');
+    infoBoxes.forEach(box => box.parentNode.removeChild(box));
+    weaponInfoClickCounter++;
+}
+
+// armor info box
+
+let armorInfoClickCounter = 0;
+function createArmorEventListener() {
+    const armorNameClass = document.querySelectorAll(".armor-name");
+
+    armorNameClass.forEach(armor => {
+        armor.addEventListener("click", () => {
+            const armorName = armor.getAttribute('data-armor-name');
+
+            if(armorInfoClickCounter % 2 == 0)
+            {
+                showArmorInfo(armorName);
+            }
+            else
+            {
+                clearArmorInfo();
+            }
+        });
+    });
+}
+
+function showArmorInfo(armorName) {
+    for (const armor of armorPiecesList.getArmorPieces()) {
+        if (armor.getArmorName() == armorName) {
+            // Get canvas position
+            const canvasRect = canvas.getBoundingClientRect();
+
+            // Create a div for info box
+            const infoBox = document.createElement('div');
+            infoBox.setAttribute("class", "info-box armor-info-box");
+            infoBox.style.position = 'absolute';
+            infoBox.style.top = `${canvasRect.top + 370}px`;
+            infoBox.style.left = `${canvasRect.right + 10}px`;
+            infoBox.style.backgroundColor = 'white';
+            infoBox.style.border = '1px solid black';
+            infoBox.style.padding = '10px';
+
+            infoBox.innerHTML = `${armor.displayArmorInfo()}`;
+
+            // Append info box to document body
+            document.body.appendChild(infoBox);
+            armorInfoClickCounter++;
+        }
+    }
+}
+
+// Function to clear character info
+function clearArmorInfo() {
+    // Remove all info boxes
+    const infoBoxes = document.querySelectorAll('.armor-info-box');
+    infoBoxes.forEach(box => box.parentNode.removeChild(box));
+    armorInfoClickCounter++;
+}
+
 
 
 
@@ -503,18 +713,18 @@ TeamBlue.addCharacter(Silver);
 const SteelBladeStats = new DamageVector7(0.45, 0.45, 0.1, 0, 0, 0, 0)
 
 const StellSwordDamage = new Vector2D(16, 20)
-const SteelSword = new Weapon("Steel Sword", StellSwordDamage, 8, SteelBladeStats);
+const SteelSword = new Weapon("Steel Sword", StellSwordDamage, 8, SteelBladeStats, weaponsList);
 
 const StellShortBladeDamage = new Vector2D(4, 9)
-const SteelShortBlade = new Weapon("Steel short blade", StellShortBladeDamage, 2, SteelBladeStats);
+const SteelShortBlade = new Weapon("Steel short blade", StellShortBladeDamage, 2, SteelBladeStats, weaponsList);
 
 const PlateProtectionStats = new DamageVector7(0.75, 0.5, 0.5, 0.5, 0.5, 0, 0.9)
 
-const PlateArmor = new Armor("Steel Plate Chest-Plate", 40, PlateProtectionStats);
-const PlateGloves = new Armor("Steel Plate Gloves", 16, PlateProtectionStats);
-const PlateBoots = new Armor("Steel Plate Boots", 16, PlateProtectionStats);
-const PlateLeggins = new Armor("Steel Plate Leggins", 18, PlateProtectionStats);
-const BodyChainmail = new Armor("Steel Body Chainmail", 10, PlateProtectionStats);
+const PlateArmor = new Armor("Steel Plate Chest-Plate", 40, PlateProtectionStats, armorPiecesList);
+const PlateGloves = new Armor("Steel Plate Gloves", 16, PlateProtectionStats, armorPiecesList);
+const PlateBoots = new Armor("Steel Plate Boots", 16, PlateProtectionStats, armorPiecesList);
+const PlateLeggins = new Armor("Steel Plate Leggins", 18, PlateProtectionStats, armorPiecesList);
+const BodyChainmail = new Armor("Steel Body Chainmail", 10, PlateProtectionStats, armorPiecesList);
 
 Tony.equip(SteelSword)
 Tony.equip(SteelShortBlade)
@@ -543,4 +753,4 @@ gameLoop(); // Start the game loop
 
 
 
-},{"./Class/Character":1,"./Class/DamageVector7":2,"./Class/Item":4,"./Class/Team":5,"./Class/TileMap":6,"./Class/Vector2D":7}]},{},[8]);
+},{"./Class/ArmorList":1,"./Class/Character":2,"./Class/DamageVector7":3,"./Class/Item":5,"./Class/Team":6,"./Class/TileMap":7,"./Class/Vector2D":8,"./Class/WeaponList":9}]},{},[10]);

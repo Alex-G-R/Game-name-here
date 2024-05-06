@@ -5,6 +5,8 @@ const Vector2D = require('./Class/Vector2D');
 const DamageVector7 = require('./Class/DamageVector7');
 const Team = require('./Class/Team');
 const { Weapon, Armor } = require('./Class/Item');
+const WeaponList = require("./Class/WeaponList");
+const ArmorList = require("./Class/ArmorList");
 
 // Game setup
 const canvas = document.getElementById('gameCanvas');
@@ -37,10 +39,21 @@ const mapData = [
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
-
+// 32 x 24
 const tileSize = 40;
+const widthTiles = 32;
+const heightTiles = 24;
+
+canvas.width = widthTiles * tileSize;
+canvas.height = heightTiles * tileSize;
 
 const tileMap = new TileMap(tileSize, mapData);
+
+
+// init lists 
+const weaponsList = new WeaponList();
+const armorPiecesList = new ArmorList();
+
 
 let clickIteration = 0;
 // Add event listener for mouse movement
@@ -75,6 +88,7 @@ function displayCharacterInfo(character) {
 
     // Create a div for info box
     const infoBox = document.createElement('div');
+    infoBox.setAttribute("class", "info-box character-info-box");
     infoBox.style.position = 'absolute';
     infoBox.style.top = `${canvasRect.top}px`;
     infoBox.style.left = `${canvasRect.right + 10}px`;
@@ -87,14 +101,129 @@ function displayCharacterInfo(character) {
 
     // Append info box to document body
     document.body.appendChild(infoBox);
+
+    createWeaponEventListener();
+    createArmorEventListener();
 }
 
 // Function to clear character info
 function clearCharacterInfo() {
     // Remove all info boxes
-    const infoBoxes = document.querySelectorAll('div');
+    const infoBoxes = document.querySelectorAll('.info-box');
     infoBoxes.forEach(box => box.parentNode.removeChild(box));
+    weaponInfoClickCounter = 0;
+    armorInfoClickCounter = 0;
 }
+
+
+let weaponInfoClickCounter = 0;
+function createWeaponEventListener() {
+    const weaponNameClass = document.querySelectorAll(".weapon-name");
+
+    weaponNameClass.forEach(weapon => {
+        weapon.addEventListener("click", () => {
+            const weaponName = weapon.getAttribute('data-weapon-name');
+
+            if(weaponInfoClickCounter % 2 == 0)
+            {
+                showWeaponInfo(weaponName);
+            }
+            else
+            {
+                clearWeaponInfo();
+            }
+        });
+    });
+}
+
+function showWeaponInfo(weaponName) {
+    for (const weapon of weaponsList.getWeapons()) {
+        if (weapon.getWeaponName() == weaponName) {
+            // Get canvas position
+            const canvasRect = canvas.getBoundingClientRect();
+
+            // Create a div for info box
+            const infoBox = document.createElement('div');
+            infoBox.setAttribute("class", "info-box weapon-info-box");
+            infoBox.style.position = 'absolute';
+            infoBox.style.top = `${canvasRect.top}px`;
+            infoBox.style.left = `${canvasRect.right + 200}px`;
+            infoBox.style.backgroundColor = 'white';
+            infoBox.style.border = '1px solid black';
+            infoBox.style.padding = '10px';
+
+            infoBox.innerHTML = `${weapon.displayWeaponInfo()}`;
+
+            // Append info box to document body
+            document.body.appendChild(infoBox);
+            weaponInfoClickCounter++;
+        }
+    }
+}
+
+// Function to clear character info
+function clearWeaponInfo() {
+    // Remove all info boxes
+    const infoBoxes = document.querySelectorAll('.weapon-info-box');
+    infoBoxes.forEach(box => box.parentNode.removeChild(box));
+    weaponInfoClickCounter++;
+}
+
+// armor info box
+
+let armorInfoClickCounter = 0;
+function createArmorEventListener() {
+    const armorNameClass = document.querySelectorAll(".armor-name");
+
+    armorNameClass.forEach(armor => {
+        armor.addEventListener("click", () => {
+            const armorName = armor.getAttribute('data-armor-name');
+
+            if(armorInfoClickCounter % 2 == 0)
+            {
+                showArmorInfo(armorName);
+            }
+            else
+            {
+                clearArmorInfo();
+            }
+        });
+    });
+}
+
+function showArmorInfo(armorName) {
+    for (const armor of armorPiecesList.getArmorPieces()) {
+        if (armor.getArmorName() == armorName) {
+            // Get canvas position
+            const canvasRect = canvas.getBoundingClientRect();
+
+            // Create a div for info box
+            const infoBox = document.createElement('div');
+            infoBox.setAttribute("class", "info-box armor-info-box");
+            infoBox.style.position = 'absolute';
+            infoBox.style.top = `${canvasRect.top + 370}px`;
+            infoBox.style.left = `${canvasRect.right + 10}px`;
+            infoBox.style.backgroundColor = 'white';
+            infoBox.style.border = '1px solid black';
+            infoBox.style.padding = '10px';
+
+            infoBox.innerHTML = `${armor.displayArmorInfo()}`;
+
+            // Append info box to document body
+            document.body.appendChild(infoBox);
+            armorInfoClickCounter++;
+        }
+    }
+}
+
+// Function to clear character info
+function clearArmorInfo() {
+    // Remove all info boxes
+    const infoBoxes = document.querySelectorAll('.armor-info-box');
+    infoBoxes.forEach(box => box.parentNode.removeChild(box));
+    armorInfoClickCounter++;
+}
+
 
 
 
@@ -131,18 +260,18 @@ TeamBlue.addCharacter(Silver);
 const SteelBladeStats = new DamageVector7(0.45, 0.45, 0.1, 0, 0, 0, 0)
 
 const StellSwordDamage = new Vector2D(16, 20)
-const SteelSword = new Weapon("Steel Sword", StellSwordDamage, 8, SteelBladeStats);
+const SteelSword = new Weapon("Steel Sword", StellSwordDamage, 8, SteelBladeStats, weaponsList);
 
 const StellShortBladeDamage = new Vector2D(4, 9)
-const SteelShortBlade = new Weapon("Steel short blade", StellShortBladeDamage, 2, SteelBladeStats);
+const SteelShortBlade = new Weapon("Steel short blade", StellShortBladeDamage, 2, SteelBladeStats, weaponsList);
 
 const PlateProtectionStats = new DamageVector7(0.75, 0.5, 0.5, 0.5, 0.5, 0, 0.9)
 
-const PlateArmor = new Armor("Steel Plate Chest-Plate", 40, PlateProtectionStats);
-const PlateGloves = new Armor("Steel Plate Gloves", 16, PlateProtectionStats);
-const PlateBoots = new Armor("Steel Plate Boots", 16, PlateProtectionStats);
-const PlateLeggins = new Armor("Steel Plate Leggins", 18, PlateProtectionStats);
-const BodyChainmail = new Armor("Steel Body Chainmail", 10, PlateProtectionStats);
+const PlateArmor = new Armor("Steel Plate Chest-Plate", 40, PlateProtectionStats, armorPiecesList);
+const PlateGloves = new Armor("Steel Plate Gloves", 16, PlateProtectionStats, armorPiecesList);
+const PlateBoots = new Armor("Steel Plate Boots", 16, PlateProtectionStats, armorPiecesList);
+const PlateLeggins = new Armor("Steel Plate Leggins", 18, PlateProtectionStats, armorPiecesList);
+const BodyChainmail = new Armor("Steel Body Chainmail", 10, PlateProtectionStats, armorPiecesList);
 
 Tony.equip(SteelSword)
 Tony.equip(SteelShortBlade)

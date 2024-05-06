@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Game</title>
     <style>
+        *{
+            user-select: none;
+        }
+        .clickable{
+            cursor: pointer;
+        }
         canvas {
             border: 1px solid black;
         }
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="1600" height="1200"></canvas>
+    <canvas id="gameCanvas"></canvas>
 
     <script src="bundle.js"></script>
 </body>
