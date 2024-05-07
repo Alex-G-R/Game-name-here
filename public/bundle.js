@@ -1,32 +1,13 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 
 
-class ArmorList {
-    constructor()
-    {
-        this.armorPieces = []
-    }
-
-    addArmorPiece(armorPiece)
-    {
-        this.armorPieces.push(armorPiece)
-    }
-
-    getArmorPieces()
-    {
-        return this.armorPieces;
-    }
-}
-
-module.exports = ArmorList;
-},{}],2:[function(require,module,exports){
-
-
+const { CharacterList } = require("../Class/List");
+const { charactersList } = require('../Constants/GameData');
 const Entity = require('./Entity');
 const { Weapon, Armor } = require('./Item');
 
 class Character extends Entity {
-    constructor(position, name, team) {
+    constructor(position, name, team, charactersList) {
 
         super(position.x, position.y);
 
@@ -45,6 +26,12 @@ class Character extends Entity {
             this.equippedArmor = []
         ];
         this.alive = true;
+
+        this.pushCharacter(charactersList)
+    }
+
+    pushCharacter(charactersList) {
+        charactersList.addCharacter(this);
     }
     
 
@@ -187,7 +174,7 @@ class Character extends Entity {
 
 module.exports = Character;
 
-},{"./Entity":4,"./Item":5}],3:[function(require,module,exports){
+},{"../Class/List":5,"../Constants/GameData":9,"./Entity":3,"./Item":4}],2:[function(require,module,exports){
 
 class DamageVector7 {
     constructor(CutDamage, PierceDamage, IncisiveDamage, FireDamage, FrostDamage, ElectricDamage, ToxicDamage) {
@@ -203,7 +190,7 @@ class DamageVector7 {
 
 module.exports = DamageVector7;
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 
 class Entity {
     constructor(x, y) {
@@ -218,10 +205,9 @@ class Entity {
 }
 
 module.exports = Entity;
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 
-const WeaponList = require("./WeaponList");
-const ArmorList = require("./ArmorList");
+const { CharacterList, WeaponList, ArmorList} = require("../Class/List");
 
 class Item {
     constructor(name, weight) {
@@ -279,14 +265,14 @@ class Weapon extends Item {
             Name: ${this.getWeaponName()} <br>
             Damage range: ${this.getWeaponDamageRange()} <br>
              _____________ <br>
-            / Damage fractions: <br>
-            | -> Cut DMG: ${this.getWeaponCutDamageFraction()} <br>
-            | -> Pierce DMG: ${this.getWeaponPierceDamageFraction()} <br>
-            | -> Incisive DMG: ${this.getWeaponIncisiveDamageFraction()} <br>
-            | -> Fire DMG: ${this.getWeaponFireDamageFraction()} <br>
-            | -> Frost DMG: ${this.getWeaponFrostDamageFraction()} <br>
-            | -> Electric DMG: ${this.getWeaponElectricDamageFraction()} <br>
-            | -> Toxic DMG: ${this.getWeaponToxicDamageFraction()} <br>
+            / Damage type: <br>
+            | -> Cut DMG: ${(this.getWeaponCutDamageFraction())*100}% <br>
+            | -> Pierce DMG: ${(this.getWeaponPierceDamageFraction())*100}% <br>
+            | -> Incisive DMG: ${(this.getWeaponIncisiveDamageFraction())*100}% <br>
+            | -> Fire DMG: ${(this.getWeaponFireDamageFraction())*100}% <br>
+            | -> Frost DMG: ${(this.getWeaponFrostDamageFraction())*100}% <br>
+            | -> Electric DMG: ${(this.getWeaponElectricDamageFraction())*100}% <br>
+            | -> Toxic DMG: ${(this.getWeaponToxicDamageFraction())*100}% <br>
         ` 
 
         return htmlinfo;
@@ -333,13 +319,13 @@ class Armor extends Item {
             Name: ${this.getArmorName()} <br>
              _____________ <br>
             / Damage Protection: <br>
-            | -> Cut DMG Prot. : ${this.getArmorCutDamageProtection()}% <br>
-            | -> Pierce DMG Prot. : ${this.getArmorPierceDamageProtection()}% <br>
-            | -> Incisive DMG Prot. : ${this.getArmorIncisiveDamageProtection()}% <br>
-            | -> Fire DMG Prot. : ${this.getArmorFireDamageProtection()}% <br>
-            | -> Frost DMG Prot. : ${this.getArmorFrostDamageProtection()}% <br>
-            | -> Electric DMG Prot. : ${this.getArmorElectricDamageProtection()}% <br>
-            | -> Toxic DMG Prot. : ${this.getArmorToxicDamageProtection()}% <br>
+            | -> Cut DMG Prot. : ${(this.getArmorCutDamageProtection())*100}% <br>
+            | -> Pierce DMG Prot. : ${(this.getArmorPierceDamageProtection())*100}% <br>
+            | -> Incisive DMG Prot. : ${(this.getArmorIncisiveDamageProtection())*100}% <br>
+            | -> Fire DMG Prot. : ${(this.getArmorFireDamageProtection())*100}% <br>
+            | -> Frost DMG Prot. : ${(this.getArmorFrostDamageProtection())*100}% <br>
+            | -> Electric DMG Prot. : ${(this.getArmorElectricDamageProtection())*100}% <br>
+            | -> Toxic DMG Prot. : ${(this.getArmorToxicDamageProtection())*100}% <br>
         ` 
 
         return htmlinfo;
@@ -347,7 +333,63 @@ class Armor extends Item {
 }
 
 module.exports = { Weapon, Armor };
-},{"./ArmorList":1,"./WeaponList":9}],6:[function(require,module,exports){
+},{"../Class/List":5}],5:[function(require,module,exports){
+
+
+
+class CharacterList {
+    constructor()
+    {
+        this.characters = []
+    }
+
+    addCharacter(char)
+    {
+        this.characters.push(char)
+    }
+
+    getCharacters()
+    {
+        return this.characters;
+    }
+}
+
+class ArmorList {
+    constructor()
+    {
+        this.armorPieces = []
+    }
+
+    addArmorPiece(armorPiece)
+    {
+        this.armorPieces.push(armorPiece)
+    }
+
+    getArmorPieces()
+    {
+        return this.armorPieces;
+    }
+}
+
+class WeaponList {
+    constructor()
+    {
+        this.weapons = []
+    }
+
+    addWeapon(weapon)
+    {
+        this.weapons.push(weapon)
+    }
+
+    getWeapons()
+    {
+        return this.weapons;
+    }
+}
+
+module.exports = { CharacterList, ArmorList, WeaponList };
+},{}],6:[function(require,module,exports){
 
 
 class Team {
@@ -430,29 +472,7 @@ class Vector2D {
 module.exports = Vector2D;
 
 },{}],9:[function(require,module,exports){
-
-
-class WeaponList {
-    constructor()
-    {
-        this.weapons = []
-    }
-
-    addWeapon(weapon)
-    {
-        this.weapons.push(weapon)
-    }
-
-    getWeapons()
-    {
-        return this.weapons;
-    }
-}
-
-module.exports = WeaponList;
-},{}],10:[function(require,module,exports){
-const WeaponList = require("../Class/WeaponList");
-const ArmorList = require("../Class/ArmorList");
+const { CharacterList, WeaponList, ArmorList} = require("../Class/List");
 const Team = require('../Class/Team');
 
 // Define map data, 1 is water, 0 is grass
@@ -491,13 +511,16 @@ const mapWidth = tileSize * widthTiles;
 const mapHeight = tileSize * heightTiles;
 
 // init lists 
+const charactersList = new CharacterList();
 const weaponsList = new WeaponList();
 const armorPiecesList = new ArmorList();
 
+// init teams
 const TeamBlue = new Team("Team Blue");
+const TeamRed = new Team("Team Red");
 
-module.exports = {mapData, mapWidth, mapHeight, tileSize, weaponsList, armorPiecesList, TeamBlue}
-},{"../Class/ArmorList":1,"../Class/Team":6,"../Class/WeaponList":9}],11:[function(require,module,exports){
+module.exports = {mapData, mapWidth, mapHeight, tileSize, charactersList, weaponsList, armorPiecesList, TeamBlue, TeamRed}
+},{"../Class/List":5,"../Class/Team":6}],10:[function(require,module,exports){
 
 const TileMap = require("../Class/TileMap")
 const {mapData, mapHeight, mapWidth, tileSize} = require("../Constants/GameData");
@@ -514,18 +537,17 @@ const tileMap = new TileMap(tileSize, mapData);
 module.exports = {canvas, ctx, tileMap}
 
 
-},{"../Class/TileMap":7,"../Constants/GameData":10}],12:[function(require,module,exports){
+},{"../Class/TileMap":7,"../Constants/GameData":9}],11:[function(require,module,exports){
 
 const { canvas } = require("../MapUtils/map");
 const { tileSize } = require("../Constants/GameData");
-const { weaponsList, armorPiecesList, TeamBlue } = require("../Constants/GameData");
+const { charactersList, weaponsList, armorPiecesList, TeamBlue, TeamRed } = require("../Constants/GameData");
 
 const TileMap = require("../Class/TileMap")
 const Character = require("../Class/Character")
 const Team = require('../Class/Team');
 const { Weapon, Armor } = require('../Class/Item');
-const WeaponList = require("../Class/WeaponList");
-const ArmorList = require("../Class/ArmorList");
+const { CharacterList, WeaponList, ArmorList} = require("../Class/List");
 
 let clickIteration = 0;
 // Add event listener for mouse movement
@@ -539,7 +561,7 @@ function addCharacterEventListener() {
         const blockX = Math.floor(mouseX / tileSize);
         const blockY = Math.floor(mouseY / tileSize);
         // Iterate over all characters
-        for (const character of TeamBlue.getCharacters()) {
+        for (const character of charactersList.getCharacters()) {
             // Check if mouse is over the character's block
             if (blockX === character.getX() && blockY === character.getY()) {
                 if (clickIteration % 2 === 0) {
@@ -701,7 +723,7 @@ function clearArmorInfo() {
 
 
 module.exports = {createArmorEventListener, createWeaponEventListener, addCharacterEventListener}
-},{"../Class/ArmorList":1,"../Class/Character":2,"../Class/Item":5,"../Class/Team":6,"../Class/TileMap":7,"../Class/WeaponList":9,"../Constants/GameData":10,"../MapUtils/map":11}],13:[function(require,module,exports){
+},{"../Class/Character":1,"../Class/Item":4,"../Class/List":5,"../Class/Team":6,"../Class/TileMap":7,"../Constants/GameData":9,"../MapUtils/map":10}],12:[function(require,module,exports){
 
 const TileMap = require("./Class/TileMap")
 const Character = require("./Class/Character")
@@ -709,11 +731,10 @@ const Vector2D = require('./Class/Vector2D');
 const DamageVector7 = require('./Class/DamageVector7');
 const Team = require('./Class/Team');
 const { Weapon, Armor } = require('./Class/Item');
-const WeaponList = require("./Class/WeaponList");
-const ArmorList = require("./Class/ArmorList");
+const {CharacterList, WeaponList, ArmorList} = require("./Class/List");
 
 const {tileMap, ctx, canvas } = require("./MapUtils/map");
-const { mapData, weaponsList, armorPiecesList, TeamBlue } = require("./Constants/GameData");
+const { mapData, charactersList, weaponsList, armorPiecesList, TeamBlue, TeamRed } = require("./Constants/GameData");
 const { createArmorEventListener, createWeaponEventListener, addCharacterEventListener } = require("./UI/displayInfo");
 
 addCharacterEventListener();
@@ -729,7 +750,7 @@ function gameLoop() {
 }
 
 function updateMapData() {
-    for (const character of TeamBlue.getCharacters()) {
+    for (const character of charactersList.getCharacters()) {
         mapData[character.getY()][character.getX()] = 101;
     }
 }
@@ -740,9 +761,9 @@ const playerOnePosition = new Vector2D(1, 4);
 const playerTwoPosition = new Vector2D(7, 7);
 const playerThreePosition = new Vector2D(16, 4);
 
-const Tony = new Character(playerOnePosition, "Tony", TeamBlue)
-const Melarkey = new Character(playerTwoPosition, "Melarkey", TeamBlue)
-const Silver = new Character(playerThreePosition, "Sliver", TeamBlue)
+const Tony = new Character(playerOnePosition, "Tony", TeamBlue, charactersList)
+const Melarkey = new Character(playerTwoPosition, "Melarkey", TeamBlue, charactersList)
+const Silver = new Character(playerThreePosition, "Sliver", TeamBlue, charactersList)
 
 TeamBlue.addCharacter(Tony);
 TeamBlue.addCharacter(Melarkey);
@@ -792,4 +813,4 @@ gameLoop(); // Start the game loop
 
 
 
-},{"./Class/ArmorList":1,"./Class/Character":2,"./Class/DamageVector7":3,"./Class/Item":5,"./Class/Team":6,"./Class/TileMap":7,"./Class/Vector2D":8,"./Class/WeaponList":9,"./Constants/GameData":10,"./MapUtils/map":11,"./UI/displayInfo":12}]},{},[13]);
+},{"./Class/Character":1,"./Class/DamageVector7":2,"./Class/Item":4,"./Class/List":5,"./Class/Team":6,"./Class/TileMap":7,"./Class/Vector2D":8,"./Constants/GameData":9,"./MapUtils/map":10,"./UI/displayInfo":11}]},{},[12]);

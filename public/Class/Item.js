@@ -1,6 +1,5 @@
 
-const WeaponList = require("./WeaponList");
-const ArmorList = require("./ArmorList");
+const { CharacterList, WeaponList, ArmorList} = require("../Class/List");
 
 class Item {
     constructor(name, weight) {
@@ -58,14 +57,14 @@ class Weapon extends Item {
             Name: ${this.getWeaponName()} <br>
             Damage range: ${this.getWeaponDamageRange()} <br>
              _____________ <br>
-            / Damage fractions: <br>
-            | -> Cut DMG: ${this.getWeaponCutDamageFraction()} <br>
-            | -> Pierce DMG: ${this.getWeaponPierceDamageFraction()} <br>
-            | -> Incisive DMG: ${this.getWeaponIncisiveDamageFraction()} <br>
-            | -> Fire DMG: ${this.getWeaponFireDamageFraction()} <br>
-            | -> Frost DMG: ${this.getWeaponFrostDamageFraction()} <br>
-            | -> Electric DMG: ${this.getWeaponElectricDamageFraction()} <br>
-            | -> Toxic DMG: ${this.getWeaponToxicDamageFraction()} <br>
+            / Damage type: <br>
+            | -> Cut DMG: ${(this.getWeaponCutDamageFraction())*100}% <br>
+            | -> Pierce DMG: ${(this.getWeaponPierceDamageFraction())*100}% <br>
+            | -> Incisive DMG: ${(this.getWeaponIncisiveDamageFraction())*100}% <br>
+            | -> Fire DMG: ${(this.getWeaponFireDamageFraction())*100}% <br>
+            | -> Frost DMG: ${(this.getWeaponFrostDamageFraction())*100}% <br>
+            | -> Electric DMG: ${(this.getWeaponElectricDamageFraction())*100}% <br>
+            | -> Toxic DMG: ${(this.getWeaponToxicDamageFraction())*100}% <br>
         ` 
 
         return htmlinfo;
@@ -112,13 +111,13 @@ class Armor extends Item {
             Name: ${this.getArmorName()} <br>
              _____________ <br>
             / Damage Protection: <br>
-            | -> Cut DMG Prot. : ${this.getArmorCutDamageProtection()}% <br>
-            | -> Pierce DMG Prot. : ${this.getArmorPierceDamageProtection()}% <br>
-            | -> Incisive DMG Prot. : ${this.getArmorIncisiveDamageProtection()}% <br>
-            | -> Fire DMG Prot. : ${this.getArmorFireDamageProtection()}% <br>
-            | -> Frost DMG Prot. : ${this.getArmorFrostDamageProtection()}% <br>
-            | -> Electric DMG Prot. : ${this.getArmorElectricDamageProtection()}% <br>
-            | -> Toxic DMG Prot. : ${this.getArmorToxicDamageProtection()}% <br>
+            | -> Cut DMG Prot. : ${(this.getArmorCutDamageProtection())*100}% <br>
+            | -> Pierce DMG Prot. : ${(this.getArmorPierceDamageProtection())*100}% <br>
+            | -> Incisive DMG Prot. : ${(this.getArmorIncisiveDamageProtection())*100}% <br>
+            | -> Fire DMG Prot. : ${(this.getArmorFireDamageProtection())*100}% <br>
+            | -> Frost DMG Prot. : ${(this.getArmorFrostDamageProtection())*100}% <br>
+            | -> Electric DMG Prot. : ${(this.getArmorElectricDamageProtection())*100}% <br>
+            | -> Toxic DMG Prot. : ${(this.getArmorToxicDamageProtection())*100}% <br>
         ` 
 
         return htmlinfo;

@@ -1,14 +1,13 @@
 
 const { canvas } = require("../MapUtils/map");
 const { tileSize } = require("../Constants/GameData");
-const { weaponsList, armorPiecesList, TeamBlue } = require("../Constants/GameData");
+const { charactersList, weaponsList, armorPiecesList, TeamBlue, TeamRed } = require("../Constants/GameData");
 
 const TileMap = require("../Class/TileMap")
 const Character = require("../Class/Character")
 const Team = require('../Class/Team');
 const { Weapon, Armor } = require('../Class/Item');
-const WeaponList = require("../Class/WeaponList");
-const ArmorList = require("../Class/ArmorList");
+const { CharacterList, WeaponList, ArmorList} = require("../Class/List");
 
 let clickIteration = 0;
 // Add event listener for mouse movement
@@ -22,7 +21,7 @@ function addCharacterEventListener() {
         const blockX = Math.floor(mouseX / tileSize);
         const blockY = Math.floor(mouseY / tileSize);
         // Iterate over all characters
-        for (const character of TeamBlue.getCharacters()) {
+        for (const character of charactersList.getCharacters()) {
             // Check if mouse is over the character's block
             if (blockX === character.getX() && blockY === character.getY()) {
                 if (clickIteration % 2 === 0) {

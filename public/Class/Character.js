@@ -1,10 +1,12 @@
 
 
+const { CharacterList } = require("../Class/List");
+const { charactersList } = require('../Constants/GameData');
 const Entity = require('./Entity');
 const { Weapon, Armor } = require('./Item');
 
 class Character extends Entity {
-    constructor(position, name, team) {
+    constructor(position, name, team, charactersList) {
 
         super(position.x, position.y);
 
@@ -23,6 +25,12 @@ class Character extends Entity {
             this.equippedArmor = []
         ];
         this.alive = true;
+
+        this.pushCharacter(charactersList)
+    }
+
+    pushCharacter(charactersList) {
+        charactersList.addCharacter(this);
     }
     
 

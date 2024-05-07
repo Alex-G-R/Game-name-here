@@ -5,11 +5,10 @@ const Vector2D = require('./Class/Vector2D');
 const DamageVector7 = require('./Class/DamageVector7');
 const Team = require('./Class/Team');
 const { Weapon, Armor } = require('./Class/Item');
-const WeaponList = require("./Class/WeaponList");
-const ArmorList = require("./Class/ArmorList");
+const {CharacterList, WeaponList, ArmorList} = require("./Class/List");
 
 const {tileMap, ctx, canvas } = require("./MapUtils/map");
-const { mapData, weaponsList, armorPiecesList, TeamBlue } = require("./Constants/GameData");
+const { mapData, charactersList, weaponsList, armorPiecesList, TeamBlue, TeamRed } = require("./Constants/GameData");
 const { createArmorEventListener, createWeaponEventListener, addCharacterEventListener } = require("./UI/displayInfo");
 
 addCharacterEventListener();
@@ -25,7 +24,7 @@ function gameLoop() {
 }
 
 function updateMapData() {
-    for (const character of TeamBlue.getCharacters()) {
+    for (const character of charactersList.getCharacters()) {
         mapData[character.getY()][character.getX()] = 101;
     }
 }
@@ -36,9 +35,9 @@ const playerOnePosition = new Vector2D(1, 4);
 const playerTwoPosition = new Vector2D(7, 7);
 const playerThreePosition = new Vector2D(16, 4);
 
-const Tony = new Character(playerOnePosition, "Tony", TeamBlue)
-const Melarkey = new Character(playerTwoPosition, "Melarkey", TeamBlue)
-const Silver = new Character(playerThreePosition, "Sliver", TeamBlue)
+const Tony = new Character(playerOnePosition, "Tony", TeamBlue, charactersList)
+const Melarkey = new Character(playerTwoPosition, "Melarkey", TeamBlue, charactersList)
+const Silver = new Character(playerThreePosition, "Sliver", TeamBlue, charactersList)
 
 TeamBlue.addCharacter(Tony);
 TeamBlue.addCharacter(Melarkey);

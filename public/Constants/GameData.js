@@ -1,5 +1,4 @@
-const WeaponList = require("../Class/WeaponList");
-const ArmorList = require("../Class/ArmorList");
+const { CharacterList, WeaponList, ArmorList} = require("../Class/List");
 const Team = require('../Class/Team');
 
 // Define map data, 1 is water, 0 is grass
@@ -38,9 +37,12 @@ const mapWidth = tileSize * widthTiles;
 const mapHeight = tileSize * heightTiles;
 
 // init lists 
+const charactersList = new CharacterList();
 const weaponsList = new WeaponList();
 const armorPiecesList = new ArmorList();
 
+// init teams
 const TeamBlue = new Team("Team Blue");
+const TeamRed = new Team("Team Red");
 
-module.exports = {mapData, mapWidth, mapHeight, tileSize, weaponsList, armorPiecesList, TeamBlue}
+module.exports = {mapData, mapWidth, mapHeight, tileSize, charactersList, weaponsList, armorPiecesList, TeamBlue, TeamRed}
