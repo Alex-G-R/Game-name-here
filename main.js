@@ -4,19 +4,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-
-const Vector2D = require('./public/Class/Vector2D');
-const DamageVector7 = require('./public/Class/DamageVector7');
-const Character = require('./public/Class/Character');
-const Team = require('./public/Class/Team');
-const { Weapon, Armor } = require('./public/Class/Item');
-
-
 /* Set-up the app */
 
 // Set up express
 const app = express();
-const PORT = 3000;
+const PORT = 6969;
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
