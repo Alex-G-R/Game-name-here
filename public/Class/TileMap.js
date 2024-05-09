@@ -16,7 +16,7 @@ class TileMap {
                     ctx.fillStyle = 'lightblue';
                 } else if (this.mapData[y][x] === 101) {
                     ctx.fillStyle = 'red';
-                }  else if (this.mapData[y][x] === 201) {
+                }  else if (this.mapData[y][x] === 111) {
                     ctx.fillStyle = 'black';
                 }
                 // Draw filled rectangle
@@ -29,11 +29,6 @@ class TileMap {
             }
         }
     }
-
-    fillCoordinates(cord_x, cord_y) {
-        this.mapData[cord_y][cord_x] = 201; // Assign an array containing the coordinates [y, x]
-    }
-    
 }
 
 module.exports = TileMap;

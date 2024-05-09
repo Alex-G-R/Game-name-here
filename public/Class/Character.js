@@ -25,6 +25,8 @@ class Character extends Entity {
         ];
         this.alive = true;
 
+        this.selected = false;
+
         this.pushCharacter()
         this.addCharacterToTeam();
     }
@@ -36,6 +38,22 @@ class Character extends Entity {
     addCharacterToTeam()
     {
         Game.addCharToTeam(this, this.team)
+    }
+
+
+    selectCharacter()
+    {
+        this.selected = true;
+    }
+
+    unSelectCharacter()
+    {
+        this.selected = false;
+    }
+
+    characterSelected()
+    {
+        return this.selected;
     }
     
 

@@ -3,9 +3,8 @@ const { canvas, tileMap, ctx } = require("../MapUtils/map");
 const { tileSize } = require("../Constants/GameData");
 const { Game } = require("../Constants/GameData")
 
-let clickIteration = 0;
-// Add event listener for mouse movement
 
+// Add event listener for mouse movement
 function addCharacterEventListener() {
     canvas.addEventListener('click', function (event) {
         const rect = canvas.getBoundingClientRect();
@@ -18,17 +17,28 @@ function addCharacterEventListener() {
         for (const character of Game.getCharacters()) {
             // Check if mouse is over the character's block
             if (blockX === character.getX() && blockY === character.getY()) {
-                if (clickIteration % 2 === 0) {
+                if (!character.characterSelected()) {
+                    // clear all previous info boxes
+                    clearCharacterInfo();
+
                     // Display box with character info
                     displayCharacterInfo(character);
 
                     // change the character color on the map
-                    tileMap.fillCoordinates(character.getX(), character.getY())
+                    character.selectCharacter();
                 }
                 else {
+                    // clear all previous info boxes
                     clearCharacterInfo();
+
+                    // Change back the color on the map
+                    character.unSelectCharacter();
                 }
-                clickIteration++;
+            }
+            else
+            {
+                // Change back the color on the map
+                character.unSelectCharacter();
             }
         }
     });

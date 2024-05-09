@@ -23,7 +23,14 @@ function gameLoop() {
 
 function updateMapData() {
     for (const character of Game.getCharacters()) {
-        mapData[character.getY()][character.getX()] = 101;
+        if(character.characterSelected())
+        {
+            mapData[character.getY()][character.getX()] = 111;
+        }
+        else
+        {
+            mapData[character.getY()][character.getX()] = 101;
+        }
     }
 }
 
