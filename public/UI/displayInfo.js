@@ -1,7 +1,6 @@
 
-const { canvas } = require("../MapUtils/map");
+const { canvas, tileMap, ctx } = require("../MapUtils/map");
 const { tileSize } = require("../Constants/GameData");
-
 const { Game } = require("../Constants/GameData")
 
 let clickIteration = 0;
@@ -22,6 +21,9 @@ function addCharacterEventListener() {
                 if (clickIteration % 2 === 0) {
                     // Display box with character info
                     displayCharacterInfo(character);
+
+                    // change the character color on the map
+                    tileMap.fillCoordinates(character.getX(), character.getY())
                 }
                 else {
                     clearCharacterInfo();

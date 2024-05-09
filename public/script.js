@@ -29,8 +29,6 @@ function updateMapData() {
 
 // test adding -> This will be UI in the future (hopefully)
 
-console.log(`Script.js -> Game Object: ${Game}`);
-
 Game.initializeTeams("Blue Ball Dick", "Legendary John")
 
 const playerOnePosition = new Vector2D(1, 4);

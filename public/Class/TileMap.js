@@ -16,8 +16,9 @@ class TileMap {
                     ctx.fillStyle = 'lightblue';
                 } else if (this.mapData[y][x] === 101) {
                     ctx.fillStyle = 'red';
+                }  else if (this.mapData[y][x] === 201) {
+                    ctx.fillStyle = 'black';
                 }
-                
                 // Draw filled rectangle
                 ctx.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
                 
@@ -27,6 +28,10 @@ class TileMap {
                 ctx.strokeRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
             }
         }
+    }
+
+    fillCoordinates(cord_x, cord_y) {
+        this.mapData[cord_y][cord_x] = 201; // Assign an array containing the coordinates [y, x]
     }
     
 }
