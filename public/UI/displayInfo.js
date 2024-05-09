@@ -165,7 +165,7 @@ function showArmorInfo(armorName) {
             const infoBox = document.createElement('div');
             infoBox.setAttribute("class", "info-box armor-info-box");
             infoBox.style.position = 'absolute';
-            infoBox.style.top = `${canvasRect.top + 370}px`;
+            infoBox.style.top = `${canvasRect.top + 390}px`;
             infoBox.style.left = `${canvasRect.right + 10}px`;
             infoBox.style.backgroundColor = 'white';
             infoBox.style.border = '1px solid black';

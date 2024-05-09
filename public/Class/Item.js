@@ -10,12 +10,17 @@ class Item {
 
 
 class Weapon extends Item {
-    constructor(name, damage, weight, damageStats)
+    constructor(name, damage, atackRange, weight, damageStats, ammunitionWeaponStatus)
     {
         super(name, weight)
 
         this.minDamage = damage.x;
         this.maxDamage = damage.y;
+
+        this.attackRange = atackRange;
+
+        this.ammunitionWeapon = ammunitionWeaponStatus;
+        this.selectedAmmunition = null;
 
         this.CutDamageFraction = damageStats.CutDamage;
         this.PierceDamageFraction = damageStats.PierceDamage;
@@ -26,6 +31,59 @@ class Weapon extends Item {
         this.ToxicDamageFraction = damageStats.ToxicDamage;
 
         this.pushWeapon();
+        this.ammunitionWeaponInit()
+    }
+
+    ammunitionWeaponInit()
+    {
+        if(this.ammunitionWeapon)
+        {
+            this.ammunitionList = [];
+        }
+    }
+
+    addAmmo(ammo)
+    {
+        this.ammunitionList.push(ammo)
+    }
+
+    selectAmmunition(ammunitionName)
+    {
+        for (const ammo of this.ammunitionList) {
+            if(ammo.getAmmunitionName() == ammunitionName)
+            {
+                this.selectedAmmunition = ammo;   
+                this.updateWeaponStats(ammo)
+            }
+        }
+    }
+
+    getSelectedAmmoName()
+    {
+        if(this.selectedAmmunition === null)
+        {
+            return "no ammunition";
+        }
+        else
+        {
+            return this.selectedAmmunition.getAmmunitionName();
+        }
+    }
+
+    updateWeaponStats(ammo)
+    {
+        this.minDamage = ammo.getAmmunitionMinDamage();
+        this.maxDamage = ammo.getAmmunitionMaxDamage();
+
+        this.atackRange = ammo.getAmmunitionAtackRange();
+
+        this.CutDamageFraction = ammo.getAmmunitionCutDamageFraction();
+        this.PierceDamageFraction = ammo.getAmmunitionPierceDamageFraction();
+        this.IncisiveDamageFraction = ammo.getAmmunitionIncisiveDamageFraction();
+        this.FireDamageFraction =ammo.getAmmunitionFireDamageFraction();
+        this.FrostDamageFraction = ammo.getAmmunitionFrostDamageFraction();
+        this.ElectricDamageFraction = ammo.getAmmunitionElectricDamageFraction();
+        this.ToxicDamageFraction = ammo.getAmmunitionToxicDamageFraction();
     }
 
     pushWeapon() {
@@ -52,23 +110,101 @@ class Weapon extends Item {
 
     displayWeaponInfo()
     {
-        const htmlinfo = 
-        `
-            Name: ${this.getWeaponName()} <br>
-            Damage range: ${this.getWeaponDamageRange()} <br>
-             _____________ <br>
-            / Damage type: <br>
-            | -> Cut DMG: ${(this.getWeaponCutDamageFraction())*100}% <br>
-            | -> Pierce DMG: ${(this.getWeaponPierceDamageFraction())*100}% <br>
-            | -> Incisive DMG: ${(this.getWeaponIncisiveDamageFraction())*100}% <br>
-            | -> Fire DMG: ${(this.getWeaponFireDamageFraction())*100}% <br>
-            | -> Frost DMG: ${(this.getWeaponFrostDamageFraction())*100}% <br>
-            | -> Electric DMG: ${(this.getWeaponElectricDamageFraction())*100}% <br>
-            | -> Toxic DMG: ${(this.getWeaponToxicDamageFraction())*100}% <br>
-        ` 
+        if(this.ammunitionWeapon)
+        {
+            const htmlinfo = 
+            `
+                Name: ${this.getWeaponName()} <br>
+                Damage range: ${this.getWeaponDamageRange()} <br> 
+                Current Ammo: ${this.getSelectedAmmoName()}<br>
+                 _____________ <br>
+                / Damage type: <br>
+                | -> Cut DMG: ${(this.getWeaponCutDamageFraction())*100}% <br>
+                | -> Pierce DMG: ${(this.getWeaponPierceDamageFraction())*100}% <br>
+                | -> Incisive DMG: ${(this.getWeaponIncisiveDamageFraction())*100}% <br>
+                | -> Fire DMG: ${(this.getWeaponFireDamageFraction())*100}% <br>
+                | -> Frost DMG: ${(this.getWeaponFrostDamageFraction())*100}% <br>
+                | -> Electric DMG: ${(this.getWeaponElectricDamageFraction())*100}% <br>
+                | -> Toxic DMG: ${(this.getWeaponToxicDamageFraction())*100}% <br>
+            ` 
+            
+            return htmlinfo;
+        }
+        else
+        {
+            const htmlinfo = 
+            `
+                Name: ${this.getWeaponName()} <br>
+                Damage range: ${this.getWeaponDamageRange()} <br>
+                 _____________ <br>
+                / Damage type: <br>
+                | -> Cut DMG: ${(this.getWeaponCutDamageFraction())*100}% <br>
+                | -> Pierce DMG: ${(this.getWeaponPierceDamageFraction())*100}% <br>
+                | -> Incisive DMG: ${(this.getWeaponIncisiveDamageFraction())*100}% <br>
+                | -> Fire DMG: ${(this.getWeaponFireDamageFraction())*100}% <br>
+                | -> Frost DMG: ${(this.getWeaponFrostDamageFraction())*100}% <br>
+                | -> Electric DMG: ${(this.getWeaponElectricDamageFraction())*100}% <br>
+                | -> Toxic DMG: ${(this.getWeaponToxicDamageFraction())*100}% <br>
+            ` 
 
-        return htmlinfo;
+            return htmlinfo;
+        }
     }
+}
+
+class Ammunition extends Item {
+    constructor(name, damage, ammunitionRange, weight, damageStats)
+    {
+        super(name, weight)
+
+        this.minDamage = damage.x;
+        this.maxDamage = damage.y;
+
+        this.ammunitionRange = ammunitionRange;
+
+        this.CutDamageFraction = damageStats.CutDamage;
+        this.PierceDamageFraction = damageStats.PierceDamage;
+        this.IncisiveDamageFraction = damageStats.IncisiveDamage;
+        this.FireDamageFraction = damageStats.FireDamage;
+        this.FrostDamageFraction = damageStats.FrostDamage;
+        this.ElectricDamageFraction = damageStats.ElectricDamage;
+        this.ToxicDamageFraction = damageStats.ToxicDamage;
+
+    }
+
+    getAmmunitionName()
+    {
+        return this.name;
+    }
+
+    getAmmunitionDamageRange()
+    {
+        return `${this.minDamage} - ${this.maxDamage}`
+    }
+
+    getAmmunitionMinDamage()
+    {
+        return this.minDamage;
+    }
+
+    getAmmunitionMaxDamage()
+    {
+        return this.maxDamage;
+    }
+
+    getAmmunitionAtackRange()
+    {
+        return this.ammunitionRange;
+    }
+
+    getAmmunitionCutDamageFraction() { return this.CutDamageFraction; }
+    getAmmunitionPierceDamageFraction(){ return this.PierceDamageFraction; }
+    getAmmunitionIncisiveDamageFraction() { return this.IncisiveDamageFraction; }
+    getAmmunitionFireDamageFraction() { return this.FireDamageFraction; }
+    getAmmunitionFrostDamageFraction() { return this.FrostDamageFraction; }
+    getAmmunitionElectricDamageFraction() { return this.ElectricDamageFraction; }
+    getAmmunitionToxicDamageFraction() { return this.ToxicDamageFraction; }
+
 }
 
 class Armor extends Item {
@@ -124,4 +260,4 @@ class Armor extends Item {
     }
 }
 
-module.exports = { Weapon, Armor };
+module.exports = { Weapon, Armor, Ammunition };
