@@ -31,6 +31,8 @@ function updateMapData() {
 
 console.log(`Script.js -> Game Object: ${Game}`);
 
+Game.initializeTeams("Blue Ball Dick", "Legendary John")
+
 const playerOnePosition = new Vector2D(1, 4);
 const playerTwoPosition = new Vector2D(7, 7);
 const playerThreePosition = new Vector2D(16, 4);

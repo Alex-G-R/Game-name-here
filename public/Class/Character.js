@@ -96,6 +96,11 @@ class Character extends Entity {
         return this.y;
     }
 
+    getTeamName()
+    {
+        return this.team.getTeamName();
+    }
+
     equip(item) {
         if (item instanceof Weapon) {
             this.equippedWeapon.push(item);
@@ -169,7 +174,8 @@ class Character extends Entity {
             ${this.showArmor()}
             <br>
             Position X: ${this.getX()} <br>
-            Position Y: ${this.getY()} <br>
+            Position Y: ${this.getY()} <br> <br>
+            Team: ${this.getTeamName()} <br>
         `
 
         return htmlInfo;

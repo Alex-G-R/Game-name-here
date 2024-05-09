@@ -29,10 +29,6 @@ class Weapon extends Item {
     }
 
     pushWeapon() {
-        console.log("Inside pushWeapon()");
-        console.log("Game object:", Game);
-        console.log("addWeaponToList method:", Game.addWeaponToList);
-
         Game.addWeaponToList(this);
     }
 
