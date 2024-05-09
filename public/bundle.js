@@ -739,7 +739,7 @@ const { createArmorEventListener, createWeaponEventListener, addCharacterEventLi
 
 addCharacterEventListener();
 createWeaponEventListener();
-createArmorEventListener();
+createArmorEventListener();   
 
 
 function gameLoop() {
@@ -772,11 +772,11 @@ TeamBlue.addCharacter(Silver);
 
 const SteelBladeStats = new DamageVector7(0.45, 0.45, 0.1, 0, 0, 0, 0)
 
-const StellSwordDamage = new Vector2D(16, 20)
-const SteelSword = new Weapon("Steel Sword", StellSwordDamage, 8, SteelBladeStats, weaponsList);
+const SteelSwordDamage = new Vector2D(16, 20)
+const SteelSword = new Weapon("Steel Sword", SteelSwordDamage, 8, SteelBladeStats, weaponsList);
 
-const StellShortBladeDamage = new Vector2D(4, 9)
-const SteelShortBlade = new Weapon("Steel short blade", StellShortBladeDamage, 2, SteelBladeStats, weaponsList);
+const SteelShortBladeDamage = new Vector2D(4, 9)
+const SteelShortBlade = new Weapon("Steel short blade", SteelShortBladeDamage, 2, SteelBladeStats, weaponsList);
 
 const PlateProtectionStats = new DamageVector7(0.75, 0.5, 0.5, 0.5, 0.5, 0, 0.9)
 
