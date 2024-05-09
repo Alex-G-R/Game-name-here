@@ -1,5 +1,5 @@
 
-const { CharacterList, WeaponList, ArmorList} = require("../Class/List");
+const { Game } = require("../Constants/GameData")
 
 class Item {
     constructor(name, weight) {
@@ -10,7 +10,7 @@ class Item {
 
 
 class Weapon extends Item {
-    constructor(name, damage, weight, damageStats, weaponList)
+    constructor(name, damage, weight, damageStats)
     {
         super(name, weight)
 
@@ -25,11 +25,15 @@ class Weapon extends Item {
         this.ElectricDamageFraction = damageStats.ElectricDamage;
         this.ToxicDamageFraction = damageStats.ToxicDamage;
 
-        this.pushWeapon(weaponList);
+        this.pushWeapon();
     }
 
-    pushWeapon(weaponList) {
-        weaponList.addWeapon(this);
+    pushWeapon() {
+        console.log("Inside pushWeapon()");
+        console.log("Game object:", Game);
+        console.log("addWeaponToList method:", Game.addWeaponToList);
+
+        Game.addWeaponToList(this);
     }
 
     getWeaponName()
@@ -72,7 +76,7 @@ class Weapon extends Item {
 }
 
 class Armor extends Item {
-    constructor(name, weight, protectionStats, armorPiecesList)
+    constructor(name, weight, protectionStats)
     {
         super(name, weight)
 
@@ -84,11 +88,11 @@ class Armor extends Item {
         this.ElectricDamageProtection = protectionStats.ElectricDamage;
         this.ToxicDamageProtection = protectionStats.ToxicDamage;
 
-        this.pushArmor(armorPiecesList)
+        this.pushArmor()
     }
 
-    pushArmor(armorPiecesList) {
-        armorPiecesList.addArmorPiece(this);
+    pushArmor() {
+        Game.addArmorToList(this);
     }
 
     getArmorName()

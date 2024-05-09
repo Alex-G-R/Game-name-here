@@ -1,13 +1,8 @@
 
 const { canvas } = require("../MapUtils/map");
 const { tileSize } = require("../Constants/GameData");
-const { charactersList, weaponsList, armorPiecesList, TeamBlue, TeamRed } = require("../Constants/GameData");
 
-const TileMap = require("../Class/TileMap")
-const Character = require("../Class/Character")
-const Team = require('../Class/Team');
-const { Weapon, Armor } = require('../Class/Item');
-const { CharacterList, WeaponList, ArmorList} = require("../Class/List");
+const { Game } = require("../Constants/GameData")
 
 let clickIteration = 0;
 // Add event listener for mouse movement
@@ -21,7 +16,7 @@ function addCharacterEventListener() {
         const blockX = Math.floor(mouseX / tileSize);
         const blockY = Math.floor(mouseY / tileSize);
         // Iterate over all characters
-        for (const character of charactersList.getCharacters()) {
+        for (const character of Game.getCharacters()) {
             // Check if mouse is over the character's block
             if (blockX === character.getX() && blockY === character.getY()) {
                 if (clickIteration % 2 === 0) {
@@ -94,7 +89,7 @@ function createWeaponEventListener() {
 }
 
 function showWeaponInfo(weaponName) {
-    for (const weapon of weaponsList.getWeapons()) {
+    for (const weapon of Game.getWeapons()) {
         if (weapon.getWeaponName() == weaponName) {
             // Get canvas position
             const canvasRect = canvas.getBoundingClientRect();
@@ -149,7 +144,7 @@ function createArmorEventListener() {
 }
 
 function showArmorInfo(armorName) {
-    for (const armor of armorPiecesList.getArmorPieces()) {
+    for (const armor of Game.getArmorPieces()) {
         if (armor.getArmorName() == armorName) {
             // Get canvas position
             const canvasRect = canvas.getBoundingClientRect();

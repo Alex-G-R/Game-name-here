@@ -1,5 +1,21 @@
 
 
+class TeamList {
+    constructor()
+    {
+        this.teams = []
+    }
+
+    addTeam(team)
+    {
+        this.teams.push(team)
+    }
+
+    getTeams()
+    {
+        return this.teams;
+    }
+}
 
 class CharacterList {
     constructor()
@@ -52,4 +68,4 @@ class WeaponList {
     }
 }
 
-module.exports = { CharacterList, ArmorList, WeaponList };
+module.exports = { TeamList, CharacterList, ArmorList, WeaponList };
