@@ -71,16 +71,22 @@ class Weapon extends Item {
 
     addAmmo(ammo)
     {
-        this.ammunitionList.push(ammo)
+        if(this.ammunitionWeapon)
+        {
+            this.ammunitionList.push(ammo)
+        }
     }
 
     selectAmmunition(ammunitionName)
     {
-        for (const ammo of this.ammunitionList) {
-            if(ammo.getAmmunitionName() == ammunitionName)
-            {
-                this.selectedAmmunition = ammo;   
-                this.updateWeaponStats(ammo)
+        if(this.ammunitionWeapon)
+        {
+            for (const ammo of this.ammunitionList) {
+                if(ammo.getAmmunitionName() == ammunitionName)
+                {
+                    this.selectedAmmunition = ammo;   
+                    this.updateWeaponStats(ammo)
+                }
             }
         }
     }
@@ -89,7 +95,7 @@ class Weapon extends Item {
     {
         if(this.selectedAmmunition === null)
         {
-            return "no ammunition";
+            return "No ammunition";
         }
         else
         {
@@ -99,18 +105,21 @@ class Weapon extends Item {
 
     updateWeaponStats(ammo)
     {
-        this.minDamage = ammo.getAmmunitionMinDamage();
-        this.maxDamage = ammo.getAmmunitionMaxDamage();
+        if(this.ammunitionWeapon)
+        {
+            this.minDamage = ammo.getAmmunitionMinDamage();
+            this.maxDamage = ammo.getAmmunitionMaxDamage();
 
-        this.attackRange = ammo.getAmmunitionAtackRange();
+            this.attackRange = ammo.getAmmunitionAtackRange();
 
-        this.CutDamageFraction = ammo.getAmmunitionCutDamageFraction();
-        this.PierceDamageFraction = ammo.getAmmunitionPierceDamageFraction();
-        this.IncisiveDamageFraction = ammo.getAmmunitionIncisiveDamageFraction();
-        this.FireDamageFraction =ammo.getAmmunitionFireDamageFraction();
-        this.FrostDamageFraction = ammo.getAmmunitionFrostDamageFraction();
-        this.ElectricDamageFraction = ammo.getAmmunitionElectricDamageFraction();
-        this.ToxicDamageFraction = ammo.getAmmunitionToxicDamageFraction();
+            this.CutDamageFraction = ammo.getAmmunitionCutDamageFraction();
+            this.PierceDamageFraction = ammo.getAmmunitionPierceDamageFraction();
+            this.IncisiveDamageFraction = ammo.getAmmunitionIncisiveDamageFraction();
+            this.FireDamageFraction =ammo.getAmmunitionFireDamageFraction();
+            this.FrostDamageFraction = ammo.getAmmunitionFrostDamageFraction();
+            this.ElectricDamageFraction = ammo.getAmmunitionElectricDamageFraction();
+            this.ToxicDamageFraction = ammo.getAmmunitionToxicDamageFraction();
+        }
     }
 
     pushWeapon() {
@@ -134,6 +143,7 @@ class Weapon extends Item {
     getWeaponFrostDamageFraction() { return this.FrostDamageFraction; }
     getWeaponElectricDamageFraction() { return this.ElectricDamageFraction; }
     getWeaponToxicDamageFraction() { return this.ToxicDamageFraction; }
+
 
     displayWeaponInfo()
     {
