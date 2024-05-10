@@ -18,8 +18,22 @@ class Spell  {
         this.ElectricDamageFraction = damageStats.ElectricDamage;
         this.ToxicDamageFraction = damageStats.ToxicDamage;
 
+        this.rangeTiles = [];
+
         this.pushSpell();
     }
+
+
+    updateRangeTiles(tiles)
+    {
+        this.rangeTiles = tiles;
+    }
+
+    getRangeTiles()
+    {
+        return this.rangeTiles;
+    }
+
 
     pushSpell() {
         Game.addSpellToList(this);

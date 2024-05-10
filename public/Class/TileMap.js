@@ -20,8 +20,10 @@ class TileMap {
                        ctx.fillStyle = 'red';
                    }  else if (this.mapData[y][x] === 111) {
                        ctx.fillStyle = 'black';
-                   }else if (this.mapData[y][x] === 999) {
+                   } else if (this.mapData[y][x] === 999) {
                        ctx.fillStyle = 'lightgreen';
+                   } else if (this.mapData[y][x] === 666) {
+                       ctx.fillStyle = 'rgb(191, 148, 228)';
                    }
                    // Draw filled rectangle
                    ctx.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);

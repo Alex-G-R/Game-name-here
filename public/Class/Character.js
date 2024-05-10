@@ -236,7 +236,7 @@ class Character extends Entity {
             `
 
             for (const spell of this.knownSpells) {
-                htmlinfo += `<span class="spell-name clickable" data-spell-name="${spell.getSpellName()}">|- ${spell.getSpellName()}</span> <br>`
+                htmlinfo += `<span class="spell-name clickable" data-spell-name="${spell.getSpellName()}" data-spell-owner="${this.getName()}">|- ${spell.getSpellName()}</span> <br>`
             }
 
 

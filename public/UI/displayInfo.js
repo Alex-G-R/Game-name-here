@@ -4,6 +4,19 @@ const { tileSize} = require("../Constants/GameData");
 const { Game } = require("../Constants/GameData");
 
 
+
+function clearID(id)
+{
+    for (let y = 0; y < tileMap.getTileMapHeight(); y++) {
+        for (let x = 0; x < tileMap.getTileMapWidth(); x++) {
+            if (mapData[y][x] === id) {
+                mapData[y][x] = 0;
+            }
+        }
+    }
+}
+
+
 // Add event listener for mouse clicks on the canvas
 function addCharacterEventListener() {
     let selectedCharacter = null;
@@ -32,6 +45,8 @@ function addCharacterEventListener() {
         // Iterate over all characters to find if one is clicked
         for (const character of Game.getCharacters()) {
             if (blockX === character.getX() && blockY === character.getY()) {
+                clearID(999);
+                clearID(666);
                 if (selectedCharacter !== character) {
                     // Clear previous selections
                     if (selectedCharacter) {
@@ -177,6 +192,7 @@ function createSpellEventListener() {
 }
 
 function showSpellInfo(spellName) {
+    clearID(999);
     for (const spell of Game.getSpells()) {
         if (spell.getSpellName() == spellName) {
             // Get canvas position
@@ -189,7 +205,7 @@ function showSpellInfo(spellName) {
             infoBox.style.top = `${canvasRect.top + 390}px`;
             infoBox.style.left = `${canvasRect.right + 200}px`;
             infoBox.style.backgroundColor = 'white';
-            infoBox.style.border = '1px solid black';
+            infoBox.style.border = '1px solid black'; 
             infoBox.style.padding = '10px';
 
             infoBox.innerHTML = `${spell.displaySpellInfo()}`;
@@ -197,6 +213,24 @@ function showSpellInfo(spellName) {
             // Append info box to document body
             document.body.appendChild(infoBox);
             spellInfoClickCounter++;
+
+            for (const character of Game.getCharacters()) {
+                
+                if (character.characterSelected()) {
+                    const tilesInRange = getReachableTiles(mapData, character.getX(), character.getY(), spell.getSpellAttackRange())
+
+                    spell.updateRangeTiles(tilesInRange);
+
+                    console.log(tilesInRange)
+
+                    // Update mapData for each tile within range
+                    for (const tile of tilesInRange) {
+                        const [x, y] = tile;
+                        mapData[y][x] = 666;
+                    }                      
+                    console.log(mapData)
+                }
+            }
         }
     }
 }
@@ -275,6 +309,9 @@ function createMoveButtonEventListener()
 
     moveButton.addEventListener("click", () => {
 
+        clearID(666);
+        clearSpellInfo();
+        spellInfoClickCounter = 0;
 
         const characterName = moveButton.getAttribute("data-character-name");
 

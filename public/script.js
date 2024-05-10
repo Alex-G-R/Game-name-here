@@ -52,6 +52,13 @@ function updateMapData() {
                 }
             }
         }
+        for (let y = 0; y < tileMap.getTileMapHeight(); y++) {
+            for (let x = 0; x < tileMap.getTileMapWidth(); x++) {
+                if (mapData[y][x] === 666) {
+                    mapData[y][x] = 0;
+                }
+            }
+        }
     }
 }
 
@@ -71,7 +78,7 @@ const Silver = new Character(playerThreePosition, "Sliver", Game.getTeamTwo())
 /* Spell test */
 const FireBallDamage = new Vector2D(10, 20)
 const FireBallStats = new DamageVector7(0, 0, 0, 1, 0, 0, 0)
-const FireBall = new Spell("Fire Ball", FireBallDamage, 15, FireBallStats)
+const FireBall = new Spell("Fire Ball", FireBallDamage, 6, FireBallStats)
 
 Melarkey.equip(FireBall)
 
