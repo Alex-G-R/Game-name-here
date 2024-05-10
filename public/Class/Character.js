@@ -29,9 +29,29 @@ class Character extends Entity {
 
         this.selected = false;
 
+        this.walkableTiles = []
+
         this.pushCharacter()
         this.addCharacterToTeam();
     }
+
+
+    updateWalkableTiles(tiles)
+    {
+        this.walkableTiles = tiles;
+    }
+
+    getWalkableTiles()
+    {
+        return this.walkableTiles;
+    }
+
+    changeCharacterPosition(newX, newY)
+    {
+        this.x = newX;
+        this.y = newY;
+    }
+
 
     pushCharacter() {
         Game.addCharToList(this);
@@ -247,6 +267,9 @@ class Character extends Entity {
             ${this.showWeapons()}
             ${this.showSpells()}
             ${this.showArmor()}
+            <br>
+            Pos X: ${this.getX()}<br>
+            Pos Y: ${this.getY()}
         `
 
         return htmlInfo;

@@ -45,6 +45,13 @@ function updateMapData() {
                 }
             }
         }
+        for (let y = 0; y < tileMap.getTileMapHeight(); y++) {
+            for (let x = 0; x < tileMap.getTileMapWidth(); x++) {
+                if (mapData[y][x] === 111) {
+                    mapData[y][x] = 0;
+                }
+            }
+        }
     }
 }
 

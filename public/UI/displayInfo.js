@@ -4,45 +4,60 @@ const { tileSize} = require("../Constants/GameData");
 const { Game } = require("../Constants/GameData");
 
 
-// Add event listener for mouse movement
+// Add event listener for mouse clicks on the canvas
 function addCharacterEventListener() {
-    canvas.addEventListener('click', function (event) {
+    let selectedCharacter = null;
+
+    canvas.addEventListener('click', function(event) {
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
-        // Calculate character block position
         const blockX = Math.floor(mouseX / tileSize);
         const blockY = Math.floor(mouseY / tileSize);
-        // Iterate over all characters
-        for (const character of Game.getCharacters()) {
-            // Check if mouse is over the character's block
-            if (blockX === character.getX() && blockY === character.getY()) {
-                if (!character.characterSelected()) {
-                    // clear all previous info boxes
+
+        // If a character is selected try to move it
+        if (selectedCharacter) {
+            const walkableTiles = selectedCharacter.getWalkableTiles();
+            if (walkableTiles.some(tile => tile[0] === blockX && tile[1] === blockY)) {
+                if (mapData[blockY][blockX] === 999) { // Check if the tile is walkable
+                    selectedCharacter.changeCharacterPosition(blockX, blockY);
                     clearCharacterInfo();
-
-                    // Display box with character info
-                    displayCharacterInfo(character);
-
-                    // change the character color on the map
-                    character.selectCharacter();
+                    selectedCharacter.unSelectCharacter();
+                    selectedCharacter = null;
+                    return; 
                 }
-                else {
-                    // clear all previous info boxes
-                    clearCharacterInfo();
-
-                    // Change back the color on the map
-                    character.unSelectCharacter();
-                }
-            }
-            else
-            {
-                // Change back the color on the map
-                character.unSelectCharacter();
             }
         }
+
+        // Iterate over all characters to find if one is clicked
+        for (const character of Game.getCharacters()) {
+            if (blockX === character.getX() && blockY === character.getY()) {
+                if (selectedCharacter !== character) {
+                    // Clear previous selections
+                    if (selectedCharacter) {
+                        selectedCharacter.unSelectCharacter();
+                    }
+                    clearCharacterInfo();
+                    displayCharacterInfo(character);
+                    character.selectCharacter();
+                    selectedCharacter = character;
+                } else {
+                    // Deselect if the same character is clicked again
+                    clearCharacterInfo();
+                    character.unSelectCharacter();
+                    selectedCharacter = null;
+                }
+                return; 
+            }
+        }
+
+        // If no character is clicked and there is a selected character deselect it
+        if (selectedCharacter) {
+            selectedCharacter.unSelectCharacter();
+            clearCharacterInfo();
+            selectedCharacter = null;
+        }
     });
-    
 }
 
 // Function to display character info
@@ -268,7 +283,7 @@ function createMoveButtonEventListener()
             if (characterName == character.getName()) {
                 const tilesInRange = getReachableTiles(mapData, character.getX(), character.getY(), character.getSpeed())
                 
-
+                character.updateWalkableTiles(tilesInRange);
                 // Update mapData for each tile within range
                 for (const tile of tilesInRange) {
                     const [x, y] = tile;
