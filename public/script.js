@@ -3,15 +3,17 @@ const Character = require("./Class/Character")
 const Vector2D = require('./Class/Vector2D');
 const DamageVector7 = require('./Class/DamageVector7');
 const { Weapon, Armor, Ammunition } = require('./Class/Item');
+const { Spell } = require('./Class/Spell');
 const { Game } = require("./Constants/GameData")
 
 const {tileMap, ctx, canvas } = require("./MapUtils/map");
 const { mapData } = require("./Constants/GameData");
-const { createArmorEventListener, createWeaponEventListener, addCharacterEventListener } = require("./UI/displayInfo");
+const { createArmorEventListener, createWeaponEventListener, addCharacterEventListener, createSpellEventListener } = require("./UI/displayInfo");
 
 addCharacterEventListener();
 createWeaponEventListener();
 createArmorEventListener();   
+createSpellEventListener();
 
 
 function gameLoop() {
@@ -22,14 +24,26 @@ function gameLoop() {
 }
 
 function updateMapData() {
+    let anyCharSelected = false;
     for (const character of Game.getCharacters()) {
         if(character.characterSelected())
         {
             mapData[character.getY()][character.getX()] = 111;
+            anyCharSelected = true;
         }
         else
         {
             mapData[character.getY()][character.getX()] = 101;
+        }
+    }
+    if(!anyCharSelected)
+    {
+        for (let y = 0; y < tileMap.getTileMapHeight(); y++) {
+            for (let x = 0; x < tileMap.getTileMapWidth(); x++) {
+                if (mapData[y][x] === 999) {
+                    mapData[y][x] = 0;
+                }
+            }
         }
     }
 }
@@ -46,6 +60,14 @@ const Tony = new Character(playerOnePosition, "Tony", Game.getTeamOne())
 const Melarkey = new Character(playerTwoPosition, "Melarkey", Game.getTeamOne())
 const Silver = new Character(playerThreePosition, "Sliver", Game.getTeamTwo())
 
+
+/* Spell test */
+const FireBallDamage = new Vector2D(10, 20)
+const FireBallStats = new DamageVector7(0, 0, 0, 1, 0, 0, 0)
+const FireBall = new Spell("Fire Ball", FireBallDamage, 15, FireBallStats)
+
+Melarkey.equip(FireBall)
+
 /* wooden bow test */
 
 // create bow
@@ -61,7 +83,7 @@ WoodenBow.addAmmo(StoneArrow);
 WoodenBow.addAmmo(StoneArrow);
 WoodenBow.addAmmo(StoneArrow);
 WoodenBow.addAmmo(StoneArrow);
-WoodenBow.selectAmmunition("Stone arrow");
+// WoodenBow.selectAmmunition("Stone arrow");
 
 const SteelBladeStats = new DamageVector7(0.45, 0.45, 0.1, 0, 0, 0, 0)
 
@@ -96,7 +118,7 @@ Silver.equip(SteelSword)
 Silver.equip(SteelShortBlade)
 
 Silver.equip(PlateArmor);
-Silver.equip(PlateGloves);
+// Silver.equip(PlateGloves);
 Silver.equip(PlateBoots);
 Silver.equip(PlateLeggins);
 Silver.equip(BodyChainmail);

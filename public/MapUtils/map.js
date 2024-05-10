@@ -11,5 +11,5 @@ canvas.height = mapHeight;
 
 const tileMap = new TileMap(tileSize, mapData);
 
-module.exports = {canvas, ctx, tileMap}
+module.exports = {canvas, ctx, tileMap, mapData}
 

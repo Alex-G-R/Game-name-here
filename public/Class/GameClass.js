@@ -1,5 +1,5 @@
 
-const {CharacterList, WeaponList, ArmorList, TeamList} = require("./List");
+const {CharacterList, WeaponList, ArmorList, TeamList, SpellList} = require("./List");
 const Team = require('./Team');
 
 
@@ -10,6 +10,7 @@ class GameClass {
         this.weaponsList = new WeaponList();
         this.armorPiecesList = new ArmorList();
         this.teamsList = new TeamList();
+        this.spellsList = new SpellList();
 
         this.initializeTeams()
 
@@ -24,6 +25,11 @@ class GameClass {
     getWeapons()
     {
         return this.weaponsList.getWeapons();
+    }
+
+    getSpells()
+    {
+        return this.spellsList.getSpells();
     }
 
     getArmorPieces()
@@ -56,6 +62,11 @@ class GameClass {
     addWeaponToList(weapon)
     {
         this.weaponsList.addWeapon(weapon)
+    }
+
+    addSpellToList(spell)
+    {
+        this.spellsList.addSpell(spell)
     }
 
     addArmorToList(armor)

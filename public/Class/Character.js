@@ -2,6 +2,7 @@
 
 const Entity = require('./Entity');
 const { Weapon, Armor } = require('./Item');
+const { Spell } = require('./Spell');
 const { Game } = require("../Constants/GameData")
 
 class Character extends Entity {
@@ -21,7 +22,8 @@ class Character extends Entity {
 
         this.inventory = [
             this.equippedWeapon = [],
-            this.equippedArmor = []
+            this.equippedArmor = [],
+            this.knownSpells = []
         ];
         this.alive = true;
 
@@ -129,6 +131,11 @@ class Character extends Entity {
             this.equippedArmor.push(item);
             this.updateStats();
         }
+        else if (item instanceof Spell) 
+        {
+            this.knownSpells.push(item);
+            this.updateStats();
+        }
     }
 
     attack(target) {
@@ -150,50 +157,96 @@ class Character extends Entity {
 
     showWeapons()
     {
-        let htmlinfo = 
-        `
-              _____________ <br>
-             / Weapon list: <br>
-        `
-
-        for (const item of this.equippedWeapon) {
-            htmlinfo += `<span class="weapon-name clickable" data-weapon-name="${item.getWeaponName()}">|- ${item.getWeaponName()} ${item.getWeaponDamageRange()}</span> <br>`
+        if(this.equippedWeapon.length === 0)
+        {
+            return " ";
         }
+        else
+        {
+            let htmlinfo = 
+            `
+                  _____________ <br>
+                 / Weapon list: <br>
+            `
+
+            for (const item of this.equippedWeapon) {
+                htmlinfo += `<span class="weapon-name clickable" data-weapon-name="${item.getWeaponName()}">|- ${item.getWeaponName()} ${item.getWeaponDamageRange()}</span> <br>`
+            }
 
 
-        return htmlinfo;
+            return htmlinfo;
+        }
     }
 
     showArmor()
     {
-        let htmlinfo = 
-        `
-              _____________ <br>
-             / Armor list: <br>
-        `
-
-        for (const item of this.equippedArmor) {
-            htmlinfo += `<span class="armor-name clickable" data-armor-name="${item.getArmorName()}">|- ${item.getArmorName()}</span> <br>`
+        if(this.equippedArmor.length === 0)
+        {
+            return " ";
         }
+        else
+        {
+            let htmlinfo = 
+            `
+                  _____________ <br>
+                 / Armor list: <br>
+            `
+                
+            for (const item of this.equippedArmor) {
+                htmlinfo += `<span class="armor-name clickable" data-armor-name="${item.getArmorName()}">|- ${item.getArmorName()}</span> <br>`
+            }
+        
+        
+            return htmlinfo;
+        }
+    }
+
+    showSpells()
+    {
+        if(this.knownSpells.length === 0)
+        {
+            return " ";
+        }
+        else
+        {
+            let htmlinfo = 
+            `
+                  _____________ <br>
+                 / Spell list: <br>
+            `
+
+            for (const spell of this.knownSpells) {
+                htmlinfo += `<span class="spell-name clickable" data-spell-name="${spell.getSpellName()}">|- ${spell.getSpellName()}</span> <br>`
+            }
 
 
-        return htmlinfo;
+            return htmlinfo;
+        }
+    }
+
+    getMoveButton()
+    {
+        const moveButton = 
+        `
+            <button class="move-button clickable" id="moveButton" data-character-name="${this.getName()}">Move</button><br>
+        `   
+
+        return moveButton;
     }
 
     logCharacterInfo()
     {
         const htmlInfo = 
         `
+            Team: ${this.getTeamName()} <br> <br>
             Name: ${this.getName()} <br>
             Health: ${this.getHealth()} <br>
-            Speed: ${this.getSpeed()} <br>
             Carried Weight: ${this.getCarriedWeight()} <br>
+            Speed: ${this.getSpeed()} <br>
+            ${this.getMoveButton()}
             ${this.showWeapons()}
+            ${this.showSpells()}
             ${this.showArmor()}
-            <br>
-            Position X: ${this.getX()} <br>
-            Position Y: ${this.getY()} <br> <br>
-            Team: ${this.getTeamName()} <br>
         `
 
         return htmlInfo;

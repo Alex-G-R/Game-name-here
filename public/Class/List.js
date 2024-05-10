@@ -68,4 +68,21 @@ class WeaponList {
     }
 }
 
-module.exports = { TeamList, CharacterList, ArmorList, WeaponList };
+class SpellList {
+    constructor()
+    {
+        this.spells = []
+    }
+
+    addSpell(spell)
+    {
+        this.spells.push(spell)
+    }
+
+    getSpells()
+    {
+        return this.spells;
+    }
+}
+
+module.exports = { TeamList, CharacterList, ArmorList, WeaponList, SpellList };
