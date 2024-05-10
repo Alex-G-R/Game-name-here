@@ -35,6 +35,10 @@ class Character extends Entity {
         this.addCharacterToTeam();
     }
 
+    decreaseHealth(inflictedDamage)
+    {
+        this.health = this.health - inflictedDamage;
+    }
 
     updateWalkableTiles(tiles)
     {

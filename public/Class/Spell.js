@@ -44,6 +44,16 @@ class Spell  {
         return this.name;
     }
 
+    getSpellMaxDmg()
+    {
+        return this.maxDamage;
+    }
+
+    getSpellMinDmg()
+    {
+        return this.minDamage;
+    }
+
     getSpellDamageRange()
     {
         return `${this.minDamage} - ${this.maxDamage}`
@@ -66,7 +76,7 @@ class Spell  {
     {
         const htmlinfo = 
         `
-            Name: ${this.getSpellName()} <br>
+            Name:<p class="spell-info-display">${this.getSpellName()}</p> <br>
             Damage range: ${this.getSpellDamageRange()} <br>
             Atack range: ${this.getSpellAttackRange()} <br>
              _____________ <br>

@@ -36,6 +36,16 @@ class Weapon extends Item {
         this.ammunitionWeaponInit()
     }
 
+    getMaxDmg()
+    {
+        return this.maxDamage;
+    }
+
+    getMinDmg()
+    {
+        return this.minDamage;
+    }
+
     updateRangeTiles(tiles)
     {
         this.rangeTiles = tiles;
@@ -131,7 +141,7 @@ class Weapon extends Item {
         {
             const htmlinfo = 
             `
-                Name: ${this.getWeaponName()} <br>
+                Name:<p class="weapon-info-display">${this.getWeaponName()}</p> <br>
                 Damage range: ${this.getWeaponDamageRange()} <br> 
                 Atack range: ${this.getAttackRange()} <br>
                 Current Ammo: ${this.getSelectedAmmoName()}<br>

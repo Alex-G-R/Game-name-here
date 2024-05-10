@@ -104,15 +104,15 @@ WoodenBow.addAmmo(StoneArrow);
 WoodenBow.addAmmo(StoneArrow);
 WoodenBow.addAmmo(StoneArrow);
 WoodenBow.addAmmo(StoneArrow);
-WoodenBow.selectAmmunition("Stone arrow");
+// WoodenBow.selectAmmunition("Stone arrow");
 
 const SteelBladeStats = new DamageVector7(0.45, 0.45, 0.1, 0, 0, 0, 0)
 
 const SteelSwordDamage = new Vector2D(16, 20)
-const SteelSword = new Weapon("Steel Sword", SteelSwordDamage, 1.5, 8, SteelBladeStats, false);
+const SteelSword = new Weapon("Steel Sword", SteelSwordDamage, 1.5, 8, SteelBladeStats, true);
 
 const SteelShortBladeDamage = new Vector2D(4, 9)
-const SteelShortBlade = new Weapon("Steel short blade", SteelShortBladeDamage, 1.5, 2, SteelBladeStats, false);
+const SteelShortBlade = new Weapon("Steel short blade", SteelShortBladeDamage, 1.5, 2, SteelBladeStats, true);
 
 const PlateProtectionStats = new DamageVector7(0.75, 0.5, 0.5, 0.5, 0.5, 0, 0.9)
 

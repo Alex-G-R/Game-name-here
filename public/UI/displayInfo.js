@@ -36,6 +36,59 @@ function addCharacterEventListener() {
         const blockX = Math.floor(mouseX / tileSize);
         const blockY = Math.floor(mouseY / tileSize);
 
+        // Attack logic
+        if (selectedCharacter) {
+
+            /* Spell attack */
+            const spellElement = document.querySelector('p.spell-info-display');
+            const spellName = spellElement ? spellElement.textContent.trim() : null;
+
+            if (spellName) {
+                const spells = Game.getSpells().filter(spell => spell.getSpellName() === spellName);
+                for (const spell of spells) {
+                    const damageToInflict = Math.floor(Math.random() * (spell.getSpellMaxDmg() - spell.getSpellMinDmg() + 1)) + spell.getSpellMinDmg();
+                    if (spell.getRangeTiles(selectedCharacter).some(tile => tile[0] === blockX && tile[1] === blockY)) {
+                        if (mapData[blockY][blockX] === 101) { 
+                            Game.getCharacters().forEach(char => {
+                                if (char.getX() === blockX && char.getY() === blockY) {
+                                    char.decreaseHealth(damageToInflict);
+                                    return;
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+
+            /* Weapon attack */
+            const weaponElement = document.querySelector('p.weapon-info-display');
+            const weaponName = weaponElement ? weaponElement.textContent.trim() : null;
+
+            if (weaponName) {
+
+                console.log(weaponName)
+                
+                const weapons = Game.getWeapons().filter(spell => spell.getWeaponName() === weaponName);
+                for (const weapon of weapons) {
+                    const damageToInflict = Math.floor(Math.random() * (weapon.getMaxDmg() - weapon.getMinDmg() + 1)) + weapon.getMinDmg();
+
+                    console.log(damageToInflict)
+
+                    if (weapon.getRangeTiles(selectedCharacter).some(tile => tile[0] === blockX && tile[1] === blockY)) {
+                        if (mapData[blockY][blockX] === 101) { 
+                            Game.getCharacters().forEach(char => {
+                                if (char.getX() === blockX && char.getY() === blockY) {
+                                    char.decreaseHealth(damageToInflict);
+                                    return;
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
         // If a character is selected try to move it
         if (selectedCharacter) {
             const walkableTiles = selectedCharacter.getWalkableTiles();
