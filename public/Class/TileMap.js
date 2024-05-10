@@ -17,14 +17,16 @@ class TileMap {
                    } else if (this.mapData[y][x] === 1) {
                        ctx.fillStyle = 'rgb(40, 80, 160)';
                    } else if (this.mapData[y][x] === 101) {
-                       ctx.fillStyle = 'red';
+                       ctx.fillStyle = 'rgb(48, 47, 46)';
                    }  else if (this.mapData[y][x] === 111) {
-                       ctx.fillStyle = 'black';
+                       ctx.fillStyle = 'gray';
                    } else if (this.mapData[y][x] === 999) {
                        ctx.fillStyle = 'lightgreen';
                    } else if (this.mapData[y][x] === 666) {
                        ctx.fillStyle = 'rgb(191, 148, 228)';
-                   }
+                   } else if (this.mapData[y][x] === 888) {
+                       ctx.fillStyle = '#F96C51';
+                    }
                    // Draw filled rectangle
                    ctx.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
                    

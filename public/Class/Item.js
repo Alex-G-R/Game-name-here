@@ -30,8 +30,25 @@ class Weapon extends Item {
         this.ElectricDamageFraction = damageStats.ElectricDamage;
         this.ToxicDamageFraction = damageStats.ToxicDamage;
 
+        this.rangeTiles = [];
+
         this.pushWeapon();
         this.ammunitionWeaponInit()
+    }
+
+    updateRangeTiles(tiles)
+    {
+        this.rangeTiles = tiles;
+    }
+
+    getRangeTiles()
+    {
+        return this.rangeTiles;
+    }
+
+    getAttackRange()
+    {
+        return this.attackRange;
     }
 
     ammunitionWeaponInit()
@@ -75,7 +92,7 @@ class Weapon extends Item {
         this.minDamage = ammo.getAmmunitionMinDamage();
         this.maxDamage = ammo.getAmmunitionMaxDamage();
 
-        this.atackRange = ammo.getAmmunitionAtackRange();
+        this.attackRange = ammo.getAmmunitionAtackRange();
 
         this.CutDamageFraction = ammo.getAmmunitionCutDamageFraction();
         this.PierceDamageFraction = ammo.getAmmunitionPierceDamageFraction();
@@ -116,6 +133,7 @@ class Weapon extends Item {
             `
                 Name: ${this.getWeaponName()} <br>
                 Damage range: ${this.getWeaponDamageRange()} <br> 
+                Atack range: ${this.getAttackRange()} <br>
                 Current Ammo: ${this.getSelectedAmmoName()}<br>
                  _____________ <br>
                 / Damage type: <br>

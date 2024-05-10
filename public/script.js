@@ -59,6 +59,13 @@ function updateMapData() {
                 }
             }
         }
+        for (let y = 0; y < tileMap.getTileMapHeight(); y++) {
+            for (let x = 0; x < tileMap.getTileMapWidth(); x++) {
+                if (mapData[y][x] === 888) {
+                    mapData[y][x] = 0;
+                }
+            }
+        }
     }
 }
 
@@ -87,7 +94,7 @@ Melarkey.equip(FireBall)
 // create bow
 const WoodenBowDamage = new Vector2D(0, 2)
 const WoodenBowStats = new DamageVector7(0, 0, 1, 0, 0, 0, 0)
-const WoodenBow = new Weapon("Wooden bow", WoodenBowDamage, 1, 5, WoodenBowStats, true)
+const WoodenBow = new Weapon("Wooden bow", WoodenBowDamage, 1.5, 5, WoodenBowStats, true)
 // create arrow
 const StoneArrowDamage = new Vector2D(11, 17)
 const StoneArrowStats = new DamageVector7(0, 1, 0, 0, 0, 0, 0)
@@ -97,15 +104,15 @@ WoodenBow.addAmmo(StoneArrow);
 WoodenBow.addAmmo(StoneArrow);
 WoodenBow.addAmmo(StoneArrow);
 WoodenBow.addAmmo(StoneArrow);
-// WoodenBow.selectAmmunition("Stone arrow");
+WoodenBow.selectAmmunition("Stone arrow");
 
 const SteelBladeStats = new DamageVector7(0.45, 0.45, 0.1, 0, 0, 0, 0)
 
 const SteelSwordDamage = new Vector2D(16, 20)
-const SteelSword = new Weapon("Steel Sword", SteelSwordDamage, 1, 8, SteelBladeStats, false);
+const SteelSword = new Weapon("Steel Sword", SteelSwordDamage, 1.5, 8, SteelBladeStats, false);
 
 const SteelShortBladeDamage = new Vector2D(4, 9)
-const SteelShortBlade = new Weapon("Steel short blade", SteelShortBladeDamage, 1, 2, SteelBladeStats, false);
+const SteelShortBlade = new Weapon("Steel short blade", SteelShortBladeDamage, 1.5, 2, SteelBladeStats, false);
 
 const PlateProtectionStats = new DamageVector7(0.75, 0.5, 0.5, 0.5, 0.5, 0, 0.9)
 

@@ -16,6 +16,14 @@ function clearID(id)
     }
 }
 
+function clearTiles()
+{
+    clearID(666);
+    clearID(888);
+    clearID(999);
+    clearID(111);
+}
+
 
 // Add event listener for mouse clicks on the canvas
 function addCharacterEventListener() {
@@ -45,8 +53,7 @@ function addCharacterEventListener() {
         // Iterate over all characters to find if one is clicked
         for (const character of Game.getCharacters()) {
             if (blockX === character.getX() && blockY === character.getY()) {
-                clearID(999);
-                clearID(666);
+                clearTiles()
                 if (selectedCharacter !== character) {
                     // Clear previous selections
                     if (selectedCharacter) {
@@ -135,6 +142,7 @@ function createWeaponEventListener() {
 }
 
 function showWeaponInfo(weaponName) {
+    clearTiles()
     for (const weapon of Game.getWeapons()) {
         if (weapon.getWeaponName() == weaponName) {
             // Get canvas position
@@ -155,6 +163,24 @@ function showWeaponInfo(weaponName) {
             // Append info box to document body
             document.body.appendChild(infoBox);
             weaponInfoClickCounter++;
+
+            for (const character of Game.getCharacters()) {
+                
+                if (character.characterSelected()) {
+                    const tilesInRange = getReachableTiles(mapData, character.getX(), character.getY(), weapon.getAttackRange())
+
+                    weapon.updateRangeTiles(tilesInRange);
+
+                    console.log(tilesInRange)
+
+                    // Update mapData for each tile within range
+                    for (const tile of tilesInRange) {
+                        const [x, y] = tile;
+                        mapData[y][x] = 888;
+                    }                      
+                    console.log(mapData)
+                }
+            }
         }
     }
 }
@@ -192,7 +218,7 @@ function createSpellEventListener() {
 }
 
 function showSpellInfo(spellName) {
-    clearID(999);
+    clearTiles()
     for (const spell of Game.getSpells()) {
         if (spell.getSpellName() == spellName) {
             // Get canvas position
@@ -309,7 +335,7 @@ function createMoveButtonEventListener()
 
     moveButton.addEventListener("click", () => {
 
-        clearID(666);
+        clearTiles()
         clearSpellInfo();
         spellInfoClickCounter = 0;
 

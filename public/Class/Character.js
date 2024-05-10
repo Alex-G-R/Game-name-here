@@ -190,7 +190,7 @@ class Character extends Entity {
             `
 
             for (const item of this.equippedWeapon) {
-                htmlinfo += `<span class="weapon-name clickable" data-weapon-name="${item.getWeaponName()}">|- ${item.getWeaponName()} ${item.getWeaponDamageRange()}</span> <br>`
+                htmlinfo += `<span class="weapon-name clickable" data-weapon-name="${item.getWeaponName()}" data-spell-owner="${this.getName()}">|- ${item.getWeaponName()} ${item.getWeaponDamageRange()}</span> <br>`
             }
 
 
