@@ -1,7 +1,7 @@
  
 <!-- Please replace {repo-owner}, {repo-name}, and {email} with their appropriate values. -->
 
-# 2D RigidBody Physics Engine 🚀
+# Insert game name here 🚀
 
 This is a tile-based PVP fantasy-medival strategy turn game. <br> 
 Each team gets to equip their soldiers with equipment of their choice. <br> 
