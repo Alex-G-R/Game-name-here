@@ -5,7 +5,7 @@
 
 This is a tile-based PVP fantasy-medival strategy turn game. <br> 
 Each team gets to equip their soldiers with equipment of their choice. <br> 
-Create or own tactics, use powerful spells interact with the environment and defeat your opponent
+Create your own tactics, use powerful spells interact with the environment and defeat your opponent
 
 ## Features ✨
 
